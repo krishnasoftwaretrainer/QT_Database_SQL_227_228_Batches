@@ -1,0 +1,680 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Aug 4 22:22:55 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect krishna
+Enter password:
+Connected.
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+
+SQL> insert into student (sid,sname) values (6,'krishna');
+
+1 row created.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         6 krishna
+
+6 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         6 krishna
+
+6 rows selected.
+
+SQL> insert into student (sid,sname) values (7,'krishna');
+
+1 row created.
+
+SQL> insert into student (sid,sname) values (8,'krishna');
+
+1 row created.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         8 krishna
+         6 krishna
+         7 krishna
+
+8 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         6 krishna
+
+6 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> savepoint s1;
+
+Savepoint created.
+
+SQL> insert into student (sid,sname) values (7,'Savepoint1');
+
+1 row created.
+
+SQL> insert into student (sid,sname) values (8,'Savepoint1');
+
+1 row created.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         7 Savepoint1
+         8 Savepoint1
+         6 krishna
+
+8 rows selected.
+
+SQL> savepoint s2;
+
+Savepoint created.
+
+SQL> insert into student (sid,marks1) values (9,000);
+
+1 row created.
+
+SQL> insert into student (sid,marks1) values (10,000);
+
+1 row created.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         7 Savepoint1
+         8 Savepoint1
+         9                     0
+        10                     0
+         6 krishna
+
+10 rows selected.
+
+SQL> savepoint s3;
+
+Savepoint created.
+
+SQL> insert into student (sid,marks3) values (11,100);
+
+1 row created.
+
+SQL> insert into student (sid,marks3) values (12,100);
+
+1 row created.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         7 Savepoint1
+         8 Savepoint1
+         9                     0
+        10                     0
+         6 krishna
+        11                                         100
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+        12                                         100
+
+12 rows selected.
+
+SQL> rollback to s3;
+
+Rollback complete.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         7 Savepoint1
+         8 Savepoint1
+         9                     0
+        10                     0
+         6 krishna
+
+10 rows selected.
+
+SQL> rollback to s2;
+
+Rollback complete.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         7 Savepoint1
+         8 Savepoint1
+         6 krishna
+
+8 rows selected.
+
+SQL> rollback to s1;
+
+Rollback complete.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         6 krishna
+
+6 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from student;
+
+       SID SNAME          MARKS1     MARKS2     MARKS3 TOTALMARKS PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Supraja            85         95         75
+         2 Avinash            99         89         79        267         89
+         3 Venkatesh          85         95         75        255         85
+         4 Eswar              55         65         75        195         65
+         5 Divya              95         85         45        225         75
+         6 krishna
+
+6 rows selected.
+
+Drop SavPoint:
+-------------
+ROLLBACK TO SAVEPOINT sp2;
+Rollback complete.
+Show all SavePoints:
+-----------------
+SQL> SELECT savepoint_name FROM user_savepoints;
+==================================================================
+SQL> connect krishna
+Enter password:
+Connected.
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8                      Mobile                  500 Hyd
+
+8 rows selected.
+
+SQL> desc supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SUP_NO                                    NOT NULL VARCHAR2(2)
+ SUP_NAME                                           VARCHAR2(20)
+ ITEAM_SUPPLIED                                     VARCHAR2(15)
+ ITEAM_PRICE                                        NUMBER(5)
+ CITY                                               VARCHAR2(15)
+
+SQL> update supplier set sup_name='ramya' where sup_no='S8';
+
+0 rows updated.
+
+SQL> update supplier set sup_name='ramya' where sup_no='s8';
+
+1 row updated.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8 ramya                Mobile                  500 Hyd
+
+8 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8                      Mobile                  500 Hyd
+
+8 rows selected.
+
+SQL> update supplier set sup_name='ramya' where sup_no='s8';
+
+1 row updated.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8 ramya                Mobile                  500 Hyd
+
+8 rows selected.
+COMMIT:
+-------
+SQL> commit;
+
+Commit complete.
+
+ROLLBACK:
+--------
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8 ramya                Mobile                  500 Hyd
+
+8 rows selected.
+
+SQL> delete from supplier where sup_no='s8';
+
+1 row deleted.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> insert into supplier (sup_no) values('S8');
+
+1 row created.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+S8
+
+8 rows selected.
+
+SQL> update supplier set sup_name='ramya' where sup_no='S8';
+
+1 row updated.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+S8 ramya
+
+8 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8 ramya                Mobile                  500 Hyd
+
+8 rows selected.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8 ramya                Mobile                  500 Hyd
+
+8 rows selected.
+
+SQL> delete from supplier where sup_no='s8';
+
+1 row deleted.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> insert into supplier (sup_no) values('S8');
+
+1 row created.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+S8
+
+8 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SavePoint:
+----------
+SQL> savepoint a;
+
+Savepoint created.
+
+
+=========================================================================================
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 Suresh               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8                      Mobile                  500 Hyd
+
+8 rows selected.
+
+SQL> desc supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SUP_NO                                    NOT NULL VARCHAR2(2)
+ SUP_NAME                                           VARCHAR2(20)
+ ITEAM_SUPPLIED                                     VARCHAR2(15)
+ ITEAM_PRICE                                        NUMBER(5)
+ CITY                                               VARCHAR2(15)
+
+SQL> update supplier set sup_name='murali' where sup_no='S1';
+
+1 row updated.
+COMMIT:
+-----
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8                      Mobile                  500 Hyd
+
+8 rows selected.
+
+SQL> update supplier  set sup_name='Charan' where sup_no='S2';
+
+1 row updated.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Charan               Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8                      Mobile                  500 Hyd
+
+8 rows selected.
+ROLLBACK:
+-------
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+s8                      Mobile                  500 Hyd
+
+8 rows selected.
+
+================================================================================================
+
+FlashBack:Flashback Query allows querying past committed data using UNDO without rolling back the current transaction.
+---------
+SELECT * FROM stu
+AS OF TIMESTAMP (SYSTIMESTAMP - INTERVAL '5' MINUTE);
+
+===================
+Flashback Query vs ROLLBACK (Very Important)
+
+Feature			ROLLBACK	Flashback Query
+Needs same session	Yes	No
+Works after COMMIT	No	Yes
+Uses UNDO	Yes	Yes
+Partial recovery	No	Yes
+

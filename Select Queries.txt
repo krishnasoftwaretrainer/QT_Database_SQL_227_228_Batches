@@ -1,0 +1,85 @@
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+      1002 krishna                   50000 05-MAY-20
+      1003 Supriya                   70000 10-FEB-96
+      1004 Rachana                    6545 10-DEC-92
+      1005 archana                   61454 10-JUN-22
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+
+SQL> select eid,salery from employee;
+
+       EID     SALERY
+---------- ----------
+      1001      50000
+      1002      50000
+      1003      70000
+      1004       6545
+      1005      61454
+      1006      68794
+
+6 rows selected.
+
+SQL> select eid,salery from employee where salery=50000;
+
+       EID     SALERY
+---------- ----------
+      1001      50000
+      1002      50000
+
+SQL> select eid,salery from employee where salery>50000;
+
+       EID     SALERY
+---------- ----------
+      1003      70000
+      1005      61454
+      1006      68794
+
+SQL> select eid,salery from employee where salery>=50000;
+
+       EID     SALERY
+---------- ----------
+      1001      50000
+      1002      50000
+      1003      70000
+      1005      61454
+      1006      68794
+
+SQL> select eid,salery from employee where salery>=80000;
+
+no rows selected
+
+SQL> select eid,salery from employee where salery=50000 and eid=1007;
+
+no rows selected
+
+SQL> select eid,salery from employee where salery=50000 and eid=1006;
+
+no rows selected
+
+SQL> select eid,salery from employee where salery=50000 and eid=1001;
+
+       EID     SALERY
+---------- ----------
+      1001      50000
+
+SQL> select * from employee where salery=50000 and eid=1001;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+
+SQL> select * from employee where salery=50000 or eid=1006;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+      1002 krishna                   50000 05-MAY-20
+      1006 Hemima                    68794 20-MAR-89
+
+

@@ -1,0 +1,290 @@
+Data Types in SQL:
+----------------------
+1.Number Data Type:
+---------------------
+Plain Number(Integer):
+------------------------
+Number
+
+Floating point numbers:
+-------------------
+	Number(p,s)
+p-precesion-->Total no of digits
+s-scale-->Max no of digits after decimal point.
+p-s=max no of digits before decimal point[5-3=2]
+It is used to store fixed or floating point numbers.
+Ex:number(5,3)
+	salary 12.567-->Yes
+	salary 1234.5-->No
+
+Example:
+----------
+SQL> create table emp1(sal number(5,2),ename char(10));
+
+Table created.
+
+SQL> insert into emp1 values(1234.54,'krish');
+insert into emp1 values(1234.54,'krish')
+                        *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL> insert into emp1 values(123.54,'krish');
+
+1 row created.
+
+SQL> insert into emp1 values(123.545,'krish');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       SAL ENAME
+---------- ----------
+    123.54 krish
+    123.55 krish
+
+SQL> insert into emp1 values(123.575,'krish');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       SAL ENAME
+---------- ----------
+    123.54 krish
+    123.55 krish
+    123.58 krish
+
+SQL> insert into emp1 values(123.54565,'krish');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       SAL ENAME
+---------- ----------
+    123.54 krish
+    123.55 krish
+    123.58 krish
+    123.55 krish
+---------------------------------------
+2.Char Data Type:
+-------------------
+It is used to store fixed length characters.
+char is Static memory allocation.
+Ex: ename char(10);
+	ename Ramu;
+It doesn't relese remaning 6 characters memory.
+
+varchar:
+------
+It is used to store variable length characters.
+
+varchar is Dynamic memory allocation.
+
+Ex:ename varchar(20);
+	ename Krish;
+It relese remaning 15 characters memory.
+
+Maximum size:2000bytes
+
+varchar2:
+--------
+It is also same varchar but max memory size:4000 bytes.
+
+Note:
+----
+But still some times we are using char because It is much faster than varchar and varchar2.
+
+3.Date Data Type:
+---------------
+It is used to store dates in oracle format.
+Oracle Format:
+---------
+DD-MON-YY  '15-dec-03  hh:mm:ss  05:30:15  am/pm'
+
+Date:Two digits
+Month:First three characters.
+Year:Last two digits
+
+Time Stamp:
+----------
+'DD-MM-YY HH:MM:SS am/pm '
+Ex:
+SQL> insert into emp1 values(123.54565,'krish','10-aug-23 01:01:50 am');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       SAL ENAME      DOB
+---------- ---------- ------------------------------------------
+    123.54 krish
+    123.55 krish
+    123.58 krish
+    123.55 krish
+    123.55 krish      10-AUG-23 01.01.50.000000 AM
+
+
+--------------------------------------------
+DML Commands:
+-----------------
+Insert Query:
+
+1.To insert single record:
+--------------------------
+Type1:
+------
+SQL> insert into emp values(1001,'krish');
+
+1 row created.
+
+SQL> select * from emp;
+
+       EID ENAME
+---------- ----------
+      1001 krish
+
+Type2:
+------
+SQL> insert into emp (eid,ename) values(1005,'ramu');
+
+1 row created.
+
+
+2.To insert multiple record:
+------------------------------
+
+SQL> insert into emp values(&eid,&ename);
+Enter value for eid: 1002
+Enter value for ename: 'ramesh'
+old   1: insert into emp values(&eid,&ename)
+new   1: insert into emp values(1002,'ramesh')
+
+1 row created.
+
+SQL> / [Use backslash for enter again]
+Enter value for eid: 1003
+Enter value for ename: 'murali'
+old   1: insert into emp values(&eid,&ename)
+new   1: insert into emp values(1003,'murali')
+
+1 row created.
+
+3.To skip column:
+---------------
+SQL> insert into emp (eid) values(1005);
+
+1 row created.
+
+
+4.To insert same data again:
+-----------------------------
+SQL> insert into emp values(&&eid,&&ename);
+old   1: insert into emp values(&&eid,&&ename)
+new   1: insert into emp values(1009,'Sun')
+
+1 row created.
+
+SQL> /
+old   1: insert into emp values(&&eid,&&ename)
+new   1: insert into emp values(1009,'Sun')
+
+1 row created.
+
+SQL> /
+old   1: insert into emp values(&&eid,&&ename)
+new   1: insert into emp values(1009,'Sun')
+
+1 row created.
+
+SQL> select * from emp;
+
+       EID ENAME
+---------- ----------
+      1001 krish
+      1002 ramesh
+      1003 murali
+      1005 ramu
+      1005
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+
+9 rows selected.
+
+---------------------------
+SQL> show pagesize;
+pagesize 14
+SQL> set pagesize30;
+SQL> show pagesize;
+pagesize 30
+SQL> select * from emp;
+
+       EID ENAME
+---------- ----------
+      1001 krish
+      1002 ramesh
+      1003 murali
+      1005 ramu
+      1005
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+      1009 Sun
+
+16 rows selected.
+-------------------------------------
+Update Command:
+-------------
+ update emp set eid=1001 where ename='Sun';
+
+6 rows updated.
+
+SQL> select * from emp;
+
+       EID ENAME
+---------- ----------
+      1001 Sun
+      1001 Sun
+      1001 Sun
+      1001 Sun
+      1001 Sun
+      1001 Sun
+----------------------
+SQL> update emp set eid=1 where ename='ramesh';
+
+1 row updated.
+
+SQL> select * from emp;
+
+EID        ENAME
+---------- ----------
+100        krishna
+100        krishna
+100        krishna
+1          ramesh
+-------------------------------------------
+Delete Command:
+---------------
+SQL> delete from emp where eid=1003;
+
+0 rows deleted.
+
+SQL> delete from emp where eid=1001;
+
+6 rows deleted.
+
+SQL> select * from emp;
+
+no rows selected

@@ -1,0 +1,70 @@
+SQL> connect / as sysdba;
+Connected.
+SQL> create user hemima identified by hemima;
+
+User created.
+
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all privileges to hemima;
+
+Grant succeeded.
+
+SQL> connect hemima
+Enter password:
+Connected.
+SQL> revoke all privileges from hemima;
+
+Revoke succeeded.
+
+SQL> connect / as sysdba;
+Connected.
+SQL> revoke all privileges from hemima;
+
+Revoke succeeded.
+
+SQL> connect / as sysdba;
+Connected.
+SQL> drop user hemima;
+
+User dropped.
+========================================
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all privileges to krishna;
+
+Grant succeeded.
+
+SQL> grant insert on Supplier to krishna;
+
+Grant succeeded.
+
+SQL> grant insert,select on Supplier to krishna;
+
+Grant succeeded.
+
+
+SQL> revoke all privileges from krishna;
+
+Revoke succeeded.
+
+
+SQL> revoke insert on supplier from krishna;
+revoke insert on supplier from krishna
+                               *
+ERROR at line 1:
+ORA-01749: you may not GRANT/REVOKE privileges to/from yourself
+
+
+Save Point:
+-------
+SQL> savepoint savepoint name;
+Ex: savepoint save1;
+insert into student values(1,'abc',90);
+insert into student values(1,'abc',90);
+
+SQL> rollback save1;
+
+
+
+

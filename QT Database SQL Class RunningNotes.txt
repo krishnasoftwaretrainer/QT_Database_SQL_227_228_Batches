@@ -1,0 +1,167 @@
+create table student(htno number(10) primary key, 
+sname varchar2(20) not null,address varchar2(20) unique
+
+Krishna 
+Krishna 
+Krishna 
+
+
+primary key 
+unique
+not null 
+
+ece htno number(10) foreign key reference cse;
+
+DataBase->Tables->Rows and Columns 
+College->S T A L S 
+
+create database college;
+
+create table college.student;
+create table college.admission;
+
+select * from laptops where laptopname='Dell' and price>=1500;
+
+select * from laptops where laptopname='Dell';
+
+
+DDL: 
+DML: desc table;
+
+Insert: 
+3 Ways: 
+------
+Syntax: insert into tablename values(value1,value2,....);
+Syntax: insert into tablename(column1,column2,...)values(value1,value2..);
+Syntax: insert into tablename values(&column1,&column2,&...);
+
+Select: Retrive
+------
+Syntax: select * from tablename;
+		select column1,column2 from tablename;
+		select * from tablename where condition;
+		select column1,column2 from tablename where condition;
+		
+Update:
+------
+Syntax: update table tablename set column1=value1;
+
+Delete Truncate Drop:
+--------------------
+
+DCL: grant and revoke 
+DBA:
+grant: Grant permissins to access database.
+Create insert update delete 
+Syntax: grant all privileges to databasename;
+		grant all privileges to krishna;
+revoke: 
+revoke all privileges to databasename
+revoke all privileges to krishna;
+
+TCL:
+---
+commit; 
+rollback;
+savepoint; 
+
+savepoint savepointname;
+
+SELECT subject1 FROM student WHERE EXISTS (SELECT subject1 FROM student WHERE total > 250);
+
+
+SELECT * FROM student WHERE subject1 > ALL (SELECT subject1 FROM student WHERE total > 250);
+
+if()
+{
+if()
+{
+
+SELECT sid,sname FROM student WHERE SID IN (SELECT SID FROM student WHERE sub1 > 50) and sid IN (SELECT sid FROM student WHERE sub2 > 60) and sid IN (SELECT sid FROM student WHERE sub3 > 90);
+
+UPDATE STUDENT SET SUB1 = SUB1 + 10 WHERE total<=200;
+
+
+DataBase Session:Store Retrive:Contacts:DBA 
+---------------
+Test Data:
+DBA:Create Alter Insert Select Update Delete:Cloud 
+Data:Raw Facts:Krishna
+Information:Processed Data:N FName Occu 
+
+QA Engineer:
+
+FrontEnd[UI] + BackEnd[Fun+DB]:
+
+Queries:Questions:Commands:
+DBA:Defect:Success Fail:DBA 
+
+Web App:100% :Store Retrive
+
+DataBase:Memory:Krishna:Search: 
+DBMS:
+RDBMS:ACID 
+
+SQL:Queries:OracleDB MYSQL SQL Server PL/SQL Mongo DB AWS Azure
+Create Alter Insert Select Update Delete
+
+Programming Language:Java C 
+
+OracleDB:.exe  
+
+ETL Testing:DataBase Testing:
+
+Download and Install OracleDB: 11g 
+
+DataBase:Tables:Create Insert/Store 
+
+Before Stores/enter the Data:DDL 
+
+DDL:
+DML:
+DCL:
+TCL:
+
+DBA:
+Syntax:connect / as dba;
+Ex:connect / as sysdba;
+
+char:(5000) 1 to 50  Krishna 4bytes 
+varchar:(5000) Krishna   4bytes 
+varchar2
+
+Drop:Structure  Truncate:All Data  Delete
+
+Queries:
+Create
+Read 
+Write/Insert
+Update/Modify
+Delete
+
+DBA:Access 
+=================================
+16-12-2025
+-----
+DataBase:Create:User 
+Table/s:
+Create:Student: 
+Insert:10 Records
+Select:
+Update:
+Delete:
+
+DDL:Create,Alter,Rename,Truncate,Drop
+DML:Insert,Select,Update,Delete
+DCL:Commit,RollBack and SavePoint
+TCL:Grant and Revoke:DBA 
+
+DataTypes:
+--------
+Number:
+number
+
+Characters:
+char 1k bytes 10 500bytes
+varchar:2k
+varchar2:4k

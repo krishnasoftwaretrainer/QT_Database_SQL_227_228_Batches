@@ -1,0 +1,228 @@
+SQL> connect / as sysdba;
+Connected.
+SQL> create user username identified by password;
+
+User created.
+
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all privileges to hemima;
+
+Grant succeeded.
+
+SQL> show user;
+USER is "KRISHNA"
+
+SQL> select user from dual;
+
+USER
+------------------------------
+KRISHNA
+
+SQL> select * from all_users;
+
+USERNAME                          USER_ID CREATED
+------------------------------ ---------- ---------
+XS$NULL                        2147483638 29-MAY-14
+KRISHNA                                49 17-OCT-23
+APEX_040000                            47 29-MAY-14
+APEX_PUBLIC_USER                       45 29-MAY-14
+FLOWS_FILES                            44 29-MAY-14
+HR                                     43 29-MAY-14
+MDSYS                                  42 29-MAY-14
+ANONYMOUS                              35 29-MAY-14
+XDB                                    34 29-MAY-14
+CTXSYS                                 32 29-MAY-14
+APPQOSSYS                              30 29-MAY-14
+
+USERNAME                          USER_ID CREATED
+------------------------------ ---------- ---------
+DBSNMP                                 29 29-MAY-14
+ORACLE_OCM                             21 29-MAY-14
+DIP                                    14 29-MAY-14
+OUTLN                                   9 29-MAY-14
+SYSTEM                                  5 29-MAY-14
+SYS                                     0 29-MAY-14
+
+17 rows selected.
+SQL> connect hemima
+Enter password:
+Connected.
+SQL> revoke all privileges from hemima;
+
+Revoke succeeded.
+
+SQL>connect / as sysdba;
+o/p:Connected.
+
+SQL>select * from v$version;
+o/p:
+BANNER
+--------------------------------------------------------------------------------
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+PL/SQL Release 11.2.0.1.0 - Production
+CORE    11.2.0.1.0      Production
+TNS for 64-bit Windows: Version 11.2.0.1.0 - Production
+NLSRTL Version 11.2.0.1.0 - Production
+
+SQL>drop user krish;
+o/p:
+ERROR at line 1:
+ORA-01940: cannot drop a user that is currently connected
+
+SQL> DROP USER krishna CASCADE;
+
+o/p: User dropped.
+
+CASCADE:
+-------
+In SQL, CASCADE is an option that can be used with some commands, such as DROP and ALTER, to specify that a particular action should be performed on all dependent objects that are associated with the specified object.
+SQL> create table emp1(eid number(10));
+CASCADE is a useful option to automatically perform a specific action on all dependent objects associated with a specified object. It can save time and effort by avoiding the need to drop or modify each object individually. However, it should be used with caution and only after ensuring that you understand the potential impact on your data and database structure.
+
+DDL:
+Create Query:
+------------
+Syntax:create table tablename(columnname1(size) datatype constraintname,columnname2(size) datatype,columnname1(size) datatype...));  [not null ,unique]
+SQL>create table employee(eid number(10),ename varchar2(10),sal number(5));
+o/p:Table Created.
+
+SQL>desc employee;
+o/p:
+
+Create table using exisiting table:
+------------------------------
+Syntax:create table newtable as select * from oldtable;
+SQL> create table emp as select * from emp1;
+
+o/p:Table created.
+
+SQL> create table s111 as select htno,sname from s1;
+
+Table created.
+
+
+Alter Query:
+------------
+
+SQL>alter table employee add (gender varchar2(5));
+o/p:Table altered.
+
+SQL>desc employee;
+o/p:
+
+SQL>alter table employee modify sal varchar2(10); [Size,Datatype]
+o/p:o/p:Table altered.
+
+SQL> alter table student drop column grade; [Coloumn Drop]
+o/p:Table altered.
+
+SQL>desc employee;
+o/p:
+
+SQL>desc employee;
+o/p:
+
+Rename Column:
+---------
+SQL>alter table employee rename column eid to employee_id;
+o/p:Table altered.
+
+SQL>desc employee;
+o/p:
+
+SQL>desc employee;
+o/p:
+
+DROP CONSTRAINT:
+---------------
+SQL>ALTER TABLE table_name DROP CONSTRAINT constraint_name;
+o/p:
+
+SQL>SELECT constraint_name FROM user_constraints WHERE table_name = 'STUDENT';
+
+o/p:	CONSTRAINT_NAME
+	------------------------------
+	SYS_C007004
+
+SQL> ALTER TABLE student drop constraint SYS_C007004;
+
+Table altered.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(10)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(3)
+
+View all tables in your database:
+--------------------------------
+SQL> SELECT table_name FROM user_tables;
+
+TABLE_NAME
+------------------------------
+STUDENT
+STUDENT_NEW
+
+Drop Query:
+----------
+SQL>drop table employee;
+o/p:Table dropped.
+
+SQL>desc employee;
+o/p:
+ERROR:
+ORA-04043: object krishna does not exist
+
+SQL> FLASHBACK TABLE emp TO BEFORE DROP;
+
+Flashback complete.
+
+SQL> select * from emp;
+
+no rows selected
+drop
+
+Rename Query:
+-----------
+To use change table name or particular column name.
+Syn:rename old tablename to new tablename; 
+
+SQL> rename emp to emp1;
+
+o/p:Table renamed.
+
+Syn:alter table tablename rename column <oldcolumnname> to <newcolumnname>;
+Ex: alter table emp2 rename column eid to employeeid;
+
+SQL>create table employee(eid number(10),ename varchar2(10),sal number(5));
+o/p:Table Created.
+
+SQL>desc employee;
+o/p:
+
+SQL> alter table emp drop column empno;
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ENAME                                              VARCHAR2(10)
+ JOB                                                VARCHAR2(9)
+ MGR                                                NUMBER(4)
+ HIREDATE                                           DATE
+ SAL                                                NUMBER(7,2)
+ COMM                                               NUMBER(7,2)
+ DEPTNO                                             NUMBER(2)
+
+SQL> show pagesize;
+pagesize 14
+SQL> show linesize;
+linesize 80
+SQL> set linesize 150;
+SQL> show linesize;
+linesize 150
+
+

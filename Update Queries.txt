@@ -1,0 +1,643 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Jun 9 12:11:15 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect krishna
+Enter password:
+Connected.
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+      1002 krishna                   50000 05-MAY-20
+      1003 Supriya
+      1004                            6545
+      1005 archana                   61454 25-JAN-99
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+
+SQL> desc employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL NUMBER(10)
+ ENAME                                              VARCHAR2(20)
+ SALERY                                             NUMBER(5)
+ DOJ                                                DATE
+
+SQL> update employee set ename='Rachana' where eid=1004;
+
+1 row updated.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+      1002 krishna                   50000 05-MAY-20
+      1003 Supriya
+      1004 Rachana                    6545
+      1005 archana                   61454 25-JAN-99
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+
+SQL> update employee set salery=80000;
+
+6 rows updated.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   80000 05-MAY-20
+      1002 krishna                   80000 05-MAY-20
+      1003 Supriya                   80000
+      1004 Rachana                   80000
+      1005 archana                   80000 25-JAN-99
+      1006 Hemima                    80000 20-MAR-89
+
+6 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+      1002 krishna                   50000 05-MAY-20
+      1003 Supriya
+      1004                            6545
+      1005 archana                   61454 25-JAN-99
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+
+SQL> update employee set salery=80000 where ename='krishna';
+
+2 rows updated.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   80000 05-MAY-20
+      1002 krishna                   80000 05-MAY-20
+      1003 Supriya
+      1004                            6545
+      1005 archana                   61454 25-JAN-99
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+
+SQL> update employee set salery=70000 where ename='krishna' and eid=1001;
+
+1 row updated.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   70000 05-MAY-20
+      1002 krishna                   80000 05-MAY-20
+      1003 Supriya
+      1004                            6545
+      1005 archana                   61454 25-JAN-99
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+
+SQL> update employee set salery=70000 where ename='krishna' and eid=1007;
+
+0 rows updated.
+
+SQL> update employee set salery=70000 where ename='krishna' or eid=1007;
+
+2 rows updated.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   70000 05-MAY-20
+      1002 krishna                   70000 05-MAY-20
+      1003 Supriya
+      1004                            6545
+      1005 archana                   61454 25-JAN-99
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+
+SQL> update employee set salery=70000 where ename='krish' or eid=1007;
+
+0 rows updated.
+
+SQL> update employee set salery=70000 where salery>=72000;
+
+0 rows updated.
+
+SQL> update employee set salery=70000 where salery>6545;
+
+4 rows updated.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   70000 05-MAY-20
+      1002 krishna                   70000 05-MAY-20
+      1003 Supriya
+      1004                            6545
+      1005 archana                   70000 25-JAN-99
+      1006 Hemima                    70000 20-MAR-89
+
+6 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+      1002 krishna                   50000 05-MAY-20
+      1003 Supriya
+      1004                            6545
+      1005 archana                   61454 25-JAN-99
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+SQL> update employee set doj='10-feb-1996' where eid=1003;
+
+1 row updated.
+
+SQL> update employee set doj='10-dec-1992' where eid=1004;
+
+1 row updated.
+
+SQL> update employee set doj='10-jun-22' where eid=1005;
+
+1 row updated.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+      1002 krishna                   50000 05-MAY-20
+      1003 Supriya                   70000 10-FEB-96
+      1004                            6545 10-DEC-92
+      1005 archana                   61454 10-JUN-22
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+
+SQL> update employee set ename='Rachana' where eid=1004;
+
+1 row updated.
+
+SQL> select * from employee;
+
+       EID ENAME                    SALERY DOJ
+---------- -------------------- ---------- ---------
+      1001 krishna                   50000 05-MAY-20
+      1002 krishna                   50000 05-MAY-20
+      1003 Supriya                   70000 10-FEB-96
+      1004 Rachana                    6545 10-DEC-92
+      1005 archana                   61454 10-JUN-22
+      1006 Hemima                    68794 20-MAR-89
+
+6 rows selected.
+SQL> update supplier set city='vijayawada' where sup_no='52';
+
+1 row updated.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+52 Krishna                                          vijayawada
+
+8 rows selected.
+
+SQL> update supplier set sup_no='S8' where sup_no='52';
+
+1 row updated.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+S8 Krishna                                          vijayawada
+
+8 rows selected.
+
+SQL> delete supplier where sup_no='S8';
+
+1 row deleted.
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL LIKE Clause:
+---------------
+
+SQL> SELECT * FROM supplier WHERE column LIKE 'm%'
+  2  ;
+SELECT * FROM supplier WHERE column LIKE 'm%'
+                             *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> SELECT * FROM supplier WHERE column LIKE 'm%';
+SELECT * FROM supplier WHERE column LIKE 'm%'
+                             *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> SELECT * FROM supplier WHERE sup_name LIKE 'm%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+
+SQL> select * from supplier;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier WHERE sup_name LIKE 'S%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+SQL> SELECT * FROM supplier WHERE sup_name LIKE '%S';
+
+no rows selected
+
+SQL> SELECT * FROM supplier WHERE sup_name LIKE 'murali';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+
+SQL> SELECT * FROM supplier WHERE sup_name LIKE 'murali123';
+
+no rows selected
+
+SQL> SELECT * FROM supplier WHERE sup_name LIKE '%S%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+SQL> SELECT * FROM supplier WHERE sup_name LIKE '%a%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+
+6 rows selected.
+
+SQL> SELECT * FROM supplier WHERE sup_name LIKE '%an%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '_00';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S7 Suresh               Keyboard                400 Hyderabad
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '_0';
+
+no rows selected
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '__0';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S3 Mohan                Mouse                   350 Delhi
+S7 Suresh               Keyboard                400 Hyderabad
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '_000';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '4_%_%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S7 Suresh               Keyboard                400 Hyderabad
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '4_%_%_%';
+
+no rows selected
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '8_%_%_%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+S6 Srikanth             Processor              8500 Chennai
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '8___';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+S6 Srikanth             Processor              8500 Chennai
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '800%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '80%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+
+SQL> SELECT * FROM supplier WHERE iteam_price LIKE '8%';
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+S6 Srikanth             Processor              8500 Chennai
+
+SQL TOP Clause:
+------------
+
+SQL> SELECT * FROM supplier LIMIT 3;
+SELECT * FROM supplier LIMIT 3
+                             *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT * FROM supplier LIMIT3;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier LIMIT 3;
+SELECT * FROM supplier LIMIT 3
+                             *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT * FROM supplier LIMIT =3;
+SELECT * FROM supplier LIMIT =3
+                             *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT * FROM supplier LIMIT=3;
+SELECT * FROM supplier LIMIT=3
+                            *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> SELECT * FROM supplier LIMIT3;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier WHERE ROWNUM <= 3;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+
+SQL> SELECT * FROM supplier WHERE ROWNUM < 3;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+
+SQL> SELECT * FROM supplier LIMIT1;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier WHERE ROWNUM > 3;
+
+no rows selected
+
+SQL> SELECT * FROM supplier WHERE ROWNUM < 6;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+
+SQL ORDER BY Clause:
+-------------------
+SQL> desc supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SUP_NO                                    NOT NULL VARCHAR2(2)
+ SUP_NAME                                           VARCHAR2(20)
+ ITEAM_SUPPLIED                                     VARCHAR2(15)
+ ITEAM_PRICE                                        NUMBER(5)
+ CITY                                               VARCHAR2(15)
+
+SQL> SELECT * FROM supplier order by sup_no,sup_name,city;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S5 Manish               Printer                6000 Mumbai
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier order by sup_name,city;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+S5 Manish               Printer                6000 Mumbai
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+S1 murali               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier order by city,sup_name;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S4 Ramesh               Processor              9000 Bangalore
+S6 Srikanth             Processor              8500 Chennai
+S2 Kiran                Processor              8000 Delhi
+S3 Mohan                Mouse                   350 Delhi
+S7 Suresh               Keyboard                400 Hyderabad
+S1 murali               Keyboard                400 Hyderabad
+S5 Manish               Printer                6000 Mumbai
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier order by sup_name asc;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S2 Kiran                Processor              8000 Delhi
+S5 Manish               Printer                6000 Mumbai
+S3 Mohan                Mouse                   350 Delhi
+S4 Ramesh               Processor              9000 Bangalore
+S6 Srikanth             Processor              8500 Chennai
+S7 Suresh               Keyboard                400 Hyderabad
+S1 murali               Keyboard                400 Hyderabad
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier order by sup_name desc;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S1 murali               Keyboard                400 Hyderabad
+S7 Suresh               Keyboard                400 Hyderabad
+S6 Srikanth             Processor              8500 Chennai
+S4 Ramesh               Processor              9000 Bangalore
+S3 Mohan                Mouse                   350 Delhi
+S5 Manish               Printer                6000 Mumbai
+S2 Kiran                Processor              8000 Delhi
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier order by iteam_price desc;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S4 Ramesh               Processor              9000 Bangalore
+S6 Srikanth             Processor              8500 Chennai
+S2 Kiran                Processor              8000 Delhi
+S5 Manish               Printer                6000 Mumbai
+S7 Suresh               Keyboard                400 Hyderabad
+S1 murali               Keyboard                400 Hyderabad
+S3 Mohan                Mouse                   350 Delhi
+
+7 rows selected.
+
+SQL> SELECT * FROM supplier order by iteam_price asc;
+
+SU SUP_NAME             ITEAM_SUPPLIED  ITEAM_PRICE CITY
+-- -------------------- --------------- ----------- ---------------
+S3 Mohan                Mouse                   350 Delhi
+S1 murali               Keyboard                400 Hyderabad
+S7 Suresh               Keyboard                400 Hyderabad
+S5 Manish               Printer                6000 Mumbai
+S2 Kiran                Processor              8000 Delhi
+S6 Srikanth             Processor              8500 Chennai
+S4 Ramesh               Processor              9000 Bangalore
+
+7 rows selected.
+

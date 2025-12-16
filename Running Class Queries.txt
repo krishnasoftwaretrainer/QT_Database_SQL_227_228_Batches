@@ -1,0 +1,38 @@
+15-12-2025
+==========
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Dec 15 12:24:45 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect / as sysdba;
+Connected.
+SQL> create user classdb identified by classdb;
+
+User created.
+
+SQL> connect classdb;
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect classdb;
+Enter password:
+ERROR:
+ORA-01045: user CLASSDB lacks CREATE SESSION privilege; logon denied
+
+
+SQL> grant all privileges to classdb;
+SP2-0640: Not connected
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all privileges to classdb;
+
+Grant succeeded.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL>

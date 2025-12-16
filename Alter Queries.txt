@@ -1,0 +1,61 @@
+alter:add, modify,rename 
+
+Syntax: alter table tablename add(columname1 datatype size constraintname);
+
+alter table tablename modify(columname1 datatype size constraintname);
+
+alter table tablename rename column existingcolumnname to newcolumnname;
+
+Re-Name: rename existing tablename to new tablename;
+EX:rename employee to employee1;
+Drop: drop table tablename;
+Ex: drop table employee1;
+
+=====================================================================================
+
+				QUERIES:
+				--------
+
+SQL> create table Student(htno number(5) unique,sname varchar2(10),marks number(3));
+
+Table created.
+
+SQL> desc student;
+
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(5)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(3)
+
+
+SQL> alter table student add(percentage number(3));
+
+Table altered.
+
+
+SQL> alter table student modify(sid varchar2(10));
+
+Table altered.
+
+SQL> alter table student rename column sid to StudentId;
+
+Table altered.
+
+SQL> rename employee5 to employee;
+
+Table renamed.
+
+SQL> ALTER TABLE student DROP column studentid;
+
+Table altered.
+
+
+SQL> drop table stu;
+
+Table dropped.
+
+SQL> truncate table Customers;
+
+Table truncated.
+

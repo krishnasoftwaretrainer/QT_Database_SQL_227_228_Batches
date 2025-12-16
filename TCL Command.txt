@@ -1,0 +1,118 @@
+SQL> connect as sysdba;
+Enter user-name: sysdba
+Enter password:
+Connected.
+
+SQL> create user krish identified by krish;
+
+User created.
+
+SQL> show user;
+USER is "KRISH"
+SQL> select user from dual;
+
+USER
+------------------------------
+KRISH
+
+SQL> select * from all_users;
+
+USERNAME                          USER_ID CREATED
+------------------------------ ---------- ---------
+XS$NULL                        2147483638 29-MAY-14
+KRISH                                  50 04-AUG-23
+KRISHNA                                48 31-JUL-23
+APEX_040000                            47 29-MAY-14
+APEX_PUBLIC_USER                       45 29-MAY-14
+FLOWS_FILES                            44 29-MAY-14
+HR                                     43 29-MAY-14
+MDSYS                                  42 29-MAY-14
+ANONYMOUS                              35 29-MAY-14
+XDB                                    34 29-MAY-14
+CTXSYS                                 32 29-MAY-14
+
+USERNAME                          USER_ID CREATED
+------------------------------ ---------- ---------
+APPQOSSYS                              30 29-MAY-14
+DBSNMP                                 29 29-MAY-14
+ORACLE_OCM                             21 29-MAY-14
+DIP                                    14 29-MAY-14
+OUTLN                                   9 29-MAY-14
+SYSTEM                                  5 29-MAY-14
+SYS                                     0 29-MAY-14
+
+18 rows selected.
+
+
+SQL> connect krish/krish;
+ERROR:
+ORA-01045: user KRISH lacks CREATE SESSION privilege; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+
+SQL> grant connect,resource to krish;
+
+Grant succeeded.
+
+SQL> create table abc(abc number(2));
+
+Table created.
+
+SQL> desc abc;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ABC                                                NUMBER(2)
+
+SQL> insert into abc values(5);
+
+1 row created.
+
+SQL> select * from abc;
+
+       ABC
+----------
+         5
+SQL> update abc set abc=6;
+
+1 row updated.
+
+SQL> create user abc identified by abc;
+create user abc identified by abc
+                              *
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+SQL> grant all privileges to krish;
+grant all privileges to krish
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+SQL> connect as sysdba;
+Enter user-name: sysdba
+Enter password:
+Connected.
+SQL> grant all privileges to krish;
+
+Grant succeeded.
+
+SQL> create user abcdef identified by abcdef;
+
+User created.
+
+SQL> grant all privileges to abcdef;
+
+Grant succeeded.
+
+SQL> revoke all privileges from abcdef;
+
+Revoke succeeded.
+
+
+SQL> drop user abcdef;
+User dropped.
+
+SQL> clear scr;
+
+SQL> clear screen;
