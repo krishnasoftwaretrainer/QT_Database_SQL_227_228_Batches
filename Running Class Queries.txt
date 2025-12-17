@@ -36,3 +36,1002 @@ SQL> connect classdb;
 Enter password:
 Connected.
 SQL>
+========================
+17-12-2025
+-------
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Dec 17 11:51:15 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> select * from student;
+SP2-0640: Not connected
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> select * from student;
+
+       SID SNAME                                              PERCENTAGE
+---------- -------------------------------------------------- ----------
+       102 Balu                                                    98.99
+       101 Krishna                                                 95.33
+       103 Ramesh                                                     90
+       104 Raji                                                    85.85
+       105 Ramu                                                   100.12
+       105 Ramu                                                   100.12
+       105 Ramu                                                   100.12
+       105 Ramu                                                   100.12
+
+8 rows selected.
+
+SQL> show linwsize;
+SP2-0158: unknown SHOW option "linwsize"
+SQL> show linesize;
+linesize 80
+SQL> set linesize 150;
+SQL> show linesize;
+linesize 150
+SQL> select * from student;
+
+       SID SNAME                                              PERCENTAGE
+---------- -------------------------------------------------- ----------
+       102 Balu                                                    98.99
+       101 Krishna                                                 95.33
+       103 Ramesh                                                     90
+       104 Raji                                                    85.85
+       105 Ramu                                                   100.12
+       105 Ramu                                                   100.12
+       105 Ramu                                                   100.12
+       105 Ramu                                                   100.12
+
+8 rows selected.
+
+SQL> create table emp (eid varchar2(3),ename varchar2(5),sal number(4));
+
+Table created.
+
+SQL> desc emp;
+ Name                                                                                Null?    Type
+ ----------------------------------------------------------------------------------- -------- --------------------------------------------------------
+ EID                                                                                          VARCHAR2(3)
+ ENAME                                                                                        VARCHAR2(5)
+ SAL                                                                                          NUMBER(4)
+
+SQL> set linesize 80;
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                VARCHAR2(3)
+ ENAME                                              VARCHAR2(5)
+ SAL                                                NUMBER(4)
+
+SQL> alter table emp modify eid number(3);
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                NUMBER(3)
+ ENAME                                              VARCHAR2(5)
+ SAL                                                NUMBER(4)
+
+SQL> desc stu;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ PERCENTAGE                                         NUMBER(5,2)
+
+SQL> select * from stu;
+
+       SID SNAME      PERCENTAGE
+---------- ---------- ----------
+       101 Krishna        999.99
+       101 Krishna         999.9
+
+SQL> alter stu emp modify sname number(3);
+alter stu emp modify sname number(3)
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command
+
+
+SQL> alter stu modify sname number(3);
+alter stu modify sname number(3)
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command
+
+
+SQL> alter table stu  modify sname number(3);
+alter table stu  modify sname number(3)
+                        *
+ERROR at line 1:
+ORA-01439: column to be modified must be empty to change datatype
+
+
+SQL> truncate stu;
+truncate stu
+           *
+ERROR at line 1:
+ORA-03290: Invalid truncate command - missing CLUSTER or TABLE keyword
+
+
+SQL> truncate table stu;
+
+Table truncated.
+
+SQL> desc stu;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ PERCENTAGE                                         NUMBER(5,2)
+
+SQL> select * from stu;
+
+no rows selected
+
+SQL> alter table stu  modify sname number(3);
+
+Table altered.
+
+SQL> desc stu;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(3)
+ SNAME                                              NUMBER(3)
+ PERCENTAGE                                         NUMBER(5,2)
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                NUMBER(3)
+ ENAME                                              VARCHAR2(5)
+ SAL                                                NUMBER(4)
+
+SQL> alter table emp  modify ename varchar2(20);
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                NUMBER(3)
+ ENAME                                              VARCHAR2(20)
+ SAL                                                NUMBER(4)
+
+SQL> alter table emp  add age number(2);
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                NUMBER(3)
+ ENAME                                              VARCHAR2(20)
+ SAL                                                NUMBER(4)
+ AGE                                                NUMBER(2)
+
+SQL> alter table emp rename column eid to emp_id;
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                             NUMBER(3)
+ ENAME                                              VARCHAR2(20)
+ SAL                                                NUMBER(4)
+ AGE                                                NUMBER(2)
+
+SQL> rename emp to employee;
+
+Table renamed.
+
+SQL> desc emp;
+ERROR:
+ORA-04043: object emp does not exist
+
+
+SQL> desc employee;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                             NUMBER(3)
+ ENAME                                              VARCHAR2(20)
+ SAL                                                NUMBER(4)
+ AGE                                                NUMBER(2)
+
+SQL> rename employee to emp;
+
+Table renamed.
+
+SQL> desc employee;
+ERROR:
+ORA-04043: object employee does not exist
+
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                             NUMBER(3)
+ ENAME                                              VARCHAR2(20)
+ SAL                                                NUMBER(4)
+ AGE                                                NUMBER(2)
+
+SQL> select * from emp;
+
+no rows selected
+
+SQL> truncate table emp;
+
+Table truncated.
+
+SQL> select * from emp;
+
+no rows selected
+
+SQL> insert into emp values(&&emp_id,&&ename,&&sal,&&age);
+Enter value for emp_id: 1
+Enter value for ename: 'krishna'
+Enter value for sal: 5000
+Enter value for age: 20
+old   1: insert into emp values(&&emp_id,&&ename,&&sal,&&age)
+new   1: insert into emp values(1,'krishna',5000,20)
+
+1 row created.
+
+SQL> //
+old   1: insert into emp values(&&emp_id,&&ename,&&sal,&&age)
+new   1: insert into emp values(1,'krishna',5000,20)
+
+1 row created.
+
+SQL> //
+old   1: insert into emp values(&&emp_id,&&ename,&&sal,&&age)
+new   1: insert into emp values(1,'krishna',5000,20)
+
+1 row created.
+
+SQL> //
+old   1: insert into emp values(&&emp_id,&&ename,&&sal,&&age)
+new   1: insert into emp values(1,'krishna',5000,20)
+
+1 row created.
+
+SQL> //
+old   1: insert into emp values(&&emp_id,&&ename,&&sal,&&age)
+new   1: insert into emp values(1,'krishna',5000,20)
+
+1 row created.
+
+SQL> //
+old   1: insert into emp values(&&emp_id,&&ename,&&sal,&&age)
+new   1: insert into emp values(1,'krishna',5000,20)
+
+1 row created.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+
+6 rows selected.
+
+SQL> insert into emp(ename,sal) values('Ramesh',6000);
+
+1 row created.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+         1 krishna                    5000         20
+           Ramesh                     6000
+
+7 rows selected.
+
+SQL> truncate table emp;
+
+Table truncated.
+
+SQL> select * from emp;
+
+no rows selected
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                             NUMBER(3)
+ ENAME                                              VARCHAR2(20)
+ SAL                                                NUMBER(4)
+ AGE                                                NUMBER(2)
+
+SQL> create table emp1 as emp;
+create table emp1 as emp
+                     *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> create table emp1 as select emp;
+create table emp1 as select emp
+                              *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> create table emp1 as select * from emp;
+
+Table created.
+
+SQL> desc emp1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                             NUMBER(3)
+ ENAME                                              VARCHAR2(20)
+ SAL                                                NUMBER(4)
+ AGE                                                NUMBER(2)
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EMP_ID                                             NUMBER(3)
+ ENAME                                              VARCHAR2(20)
+ SAL                                                NUMBER(4)
+ AGE                                                NUMBER(2)
+
+SQL> drop table emp1;
+
+Table dropped.
+
+SQL> desc emp1;
+ERROR:
+ORA-04043: object emp1 does not exist
+
+
+SQL> insert into emp(ename,sal) values('Ramesh',6000);
+
+1 row created.
+
+SQL> insert into emp(ename,sal) values('Ramesh',6000);
+
+1 row created.
+
+SQL> insert into emp(ename,sal) values('Ramesh',6000);
+
+1 row created.
+
+SQL> insert into emp(ename,sal) values('Ramesh',6000);
+
+1 row created.
+
+SQL> insert into emp(ename,sal) values('Ramesh',6000);
+
+1 row created.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+
+SQL> insert into emp(ename,sal) values('Ramesh',5000);
+
+1 row created.
+
+SQL> insert into emp(ename,sal) values('Ramesh',4000);
+
+1 row created.
+
+SQL> insert into emp(ename,sal) values('Ramesh',3000);
+
+1 row created.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     5000
+           Ramesh                     4000
+           Ramesh                     3000
+
+8 rows selected.
+
+SQL> select ename from emp;
+
+ENAME
+--------------------
+Ramesh
+Ramesh
+Ramesh
+Ramesh
+Ramesh
+Ramesh
+Ramesh
+Ramesh
+
+8 rows selected.
+
+SQL> select ename,sal from emp;
+
+ENAME                       SAL
+-------------------- ----------
+Ramesh                     6000
+Ramesh                     6000
+Ramesh                     6000
+Ramesh                     6000
+Ramesh                     6000
+Ramesh                     5000
+Ramesh                     4000
+Ramesh                     3000
+
+8 rows selected.
+
+SQL> select ename,sal from emp where sal<=5000;
+
+ENAME                       SAL
+-------------------- ----------
+Ramesh                     5000
+Ramesh                     4000
+Ramesh                     3000
+
+SQL> select ename,sal from emp where sal<=5000 & ename='Ramesh';
+old   1: select ename,sal from emp where sal<=5000 & ename='Ramesh'
+new   1: select ename,sal from emp where sal<=5000 'krishna'='Ramesh'
+select ename,sal from emp where sal<=5000 'krishna'='Ramesh'
+                                          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select ename,sal from emp where sal<=5000 && ename='Ramesh';
+old   1: select ename,sal from emp where sal<=5000 && ename='Ramesh'
+new   1: select ename,sal from emp where sal<=5000 'krishna'='Ramesh'
+select ename,sal from emp where sal<=5000 'krishna'='Ramesh'
+                                          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select ename,sal from emp where sal<=5000 and ename='Ramesh';
+
+ENAME                       SAL
+-------------------- ----------
+Ramesh                     5000
+Ramesh                     4000
+Ramesh                     3000
+
+SQL> select ename,sal from emp where sal<=5000 or ename='Ramesh';
+
+ENAME                       SAL
+-------------------- ----------
+Ramesh                     6000
+Ramesh                     6000
+Ramesh                     6000
+Ramesh                     6000
+Ramesh                     6000
+Ramesh                     5000
+Ramesh                     4000
+Ramesh                     3000
+
+8 rows selected.
+
+SQL> select ename,sal from emp where sal<=5000 or ename='Krishna';
+
+ENAME                       SAL
+-------------------- ----------
+Ramesh                     5000
+Ramesh                     4000
+Ramesh                     3000
+
+SQL> select ename,sal from emp where sal<=5000 and ename='Krishna';
+
+no rows selected
+
+SQL> select * from emp where sal<=5000 and ename='Krishna';
+
+no rows selected
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     6000
+           Ramesh                     5000
+           Ramesh                     4000
+           Ramesh                     3000
+
+8 rows selected.
+
+SQL> update table emp set emp_id=101;
+update table emp set emp_id=101
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update emp set emp_id=101;
+
+8 rows updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       101 Ramesh                     6000
+       101 Ramesh                     6000
+       101 Ramesh                     6000
+       101 Ramesh                     6000
+       101 Ramesh                     6000
+       101 Ramesh                     5000
+       101 Ramesh                     4000
+       101 Ramesh                     3000
+
+8 rows selected.
+
+SQL> update emp set ename='Krishna';
+
+8 rows updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    5000
+       101 Krishna                    4000
+       101 Krishna                    3000
+
+8 rows selected.
+
+SQL> update emp set ename='Krishna' where emp_id=102;
+
+0 rows updated.
+
+SQL> update emp set ename='Krishna' where sal=3000;
+
+1 row updated.
+
+SQL> update emp set eid=104 where sal=3000;
+update emp set eid=104 where sal=3000
+               *
+ERROR at line 1:
+ORA-00904: "EID": invalid identifier
+
+
+SQL> update emp set emp_id=104 where sal=3000;
+
+1 row updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    5000
+       101 Krishna                    4000
+       104 Krishna                    3000
+
+8 rows selected.
+
+SQL> update emp set ename='Ramesh' where sal=3000;
+
+1 row updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    5000
+       101 Krishna                    4000
+       104 Ramesh                     3000
+
+8 rows selected.
+
+SQL> update emp set emp_id=103 where sal=4000;
+
+1 row updated.
+
+SQL> update emp set ename='Murali' where sal=5000;
+
+1 row updated.
+
+SQL> update emp set emp_id=102 where sal=5000;
+
+1 row updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       102 Murali                     5000
+       103 Krishna                    4000
+       104 Ramesh                     3000
+
+8 rows selected.
+
+SQL> update emp set ename='Suman' where emp_id=103;
+
+1 row updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+8 rows selected.
+
+SQL> update emp set ename='Mahesh', ename='Suresh' where emp_id=101;
+update emp set ename='Mahesh', ename='Suresh' where emp_id=101
+                               *
+ERROR at line 1:
+ORA-00957: duplicate column name
+
+
+SQL> update emp set ename='Mahesh'and emp_id=105 where emp_id=101;
+update emp set ename='Mahesh'and emp_id=105 where emp_id=101
+                             *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+8 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> delete table emp where emp_id=101;
+delete table emp where emp_id=101
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> delete emp where emp_id=101;
+
+5 rows deleted.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       101 Krishna                    6000
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+8 rows selected.
+
+SQL> delete table emp where emp_id=101;
+delete table emp where emp_id=101
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> delete emp where emp_id=101;
+
+5 rows deleted.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+SQL> commit;
+
+Commit complete.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+SQL> insert into emp values(101,'Mahesh',6000,55);
+
+1 row created.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+       101 Mahesh                     6000         55
+
+SQL> insert into emp values(102,'Srinivas',7000,45);
+
+1 row created.
+
+SQL> update table emp set age=25 where emp_id=102;
+update table emp set age=25 where emp_id=102
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update emp set age=25 where emp_id=102;
+
+2 rows updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000         25
+       103 Suman                      4000
+       104 Ramesh                     3000
+       101 Mahesh                     6000         55
+       102 Srinivas                   7000         25
+
+SQL> update table emp set age=25 where emp_id=102,104;
+update table emp set age=25 where emp_id=102,104
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update emp set age=25 where emp_id=102,104;
+update emp set age=25 where emp_id=102,104
+                                      *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> update emp set age=25 where emp_id=102 and 104;
+update emp set age=25 where emp_id=102 and 104
+                                             *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> update emp set age=25 where emp_id=102 and emp_id=104;
+
+0 rows updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000         25
+       103 Suman                      4000
+       104 Ramesh                     3000
+       101 Mahesh                     6000         55
+       102 Srinivas                   7000         25
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+SQL> savepoint e1;
+
+Savepoint created.
+
+SQL> insert into emp values(101,'Mahesh',6000,55);
+
+1 row created.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+       101 Mahesh                     6000         55
+
+SQL> savepoint e2;
+
+Savepoint created.
+
+SQL> update emp set age=25 where emp_id=102;
+
+1 row updated.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000         25
+       103 Suman                      4000
+       104 Ramesh                     3000
+       101 Mahesh                     6000         55
+
+SQL> savepoint e3;
+
+Savepoint created.
+
+SQL> delete emp where emp_id=103;
+
+1 row deleted.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000         25
+       104 Ramesh                     3000
+       101 Mahesh                     6000         55
+
+SQL> rollback e3;
+rollback e3
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK
+
+
+SQL> rollback e3;
+rollback e3
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK
+
+
+SQL> rollback savepoint e3;
+rollback savepoint e3
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK
+
+
+SQL> rollback savepoint e3;
+rollback savepoint e3
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK
+
+
+SQL> rollback e3;
+rollback e3
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK
+
+
+SQL> rollback e2;
+rollback e2
+         *
+ERROR at line 1:
+ORA-02181: invalid option to ROLLBACK WORK
+
+
+SQL> rollback to e3;
+
+Rollback complete.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000         25
+       103 Suman                      4000
+       104 Ramesh                     3000
+       101 Mahesh                     6000         55
+
+SQL> rollback to e2;
+
+Rollback complete.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+       101 Mahesh                     6000         55
+
+SQL> rollback to e1;
+
+Rollback complete.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+SQL>
