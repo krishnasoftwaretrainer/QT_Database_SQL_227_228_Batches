@@ -165,3 +165,38 @@ Characters:
 char 1k bytes 10 500bytes
 varchar:2k
 varchar2:4k
+===============================
+18/12/2025
+-------
+DataTypes:
+--------
+Number:
+number
+
+Characters:
+char 1k bytes 10 500bytes
+varchar:2k
+varchar2:4k 
+
+
+Number:
+char varchar varchar2
+date:DD/MM/YY   10/may/25
+timestamp:DD/MM/YY hh/mm/ss ms AM PM 
+
+Rule:
+Not Null: 
+Unique:Duplicate 
+Primary Key
+check 
+default 
+10
+SID SNAME S1 S2 S3 S4 Toatl	AVG Percentage
+		  50 60 40  70 
+
+update table stu set total=s1+s2+s3;
+update table stu set Percentage=total/3;
+(total*3)/100
+
+> >or=  >50 51 >=50 >=35    35Pass 36 35 34
+< <=

@@ -1035,3 +1035,708 @@ SQL> select * from emp;
        104 Ramesh                     3000
 
 SQL>
+============================================
+18/12/2025
+--------
+
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Dec 18 11:44:42 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> create table emp1(eid number(3),ename varchar(10),dob date);
+
+Table created.
+
+SQL> desc emp1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                NUMBER(3)
+ ENAME                                              VARCHAR2(10)
+ DOB                                                DATE
+
+SQL> insert into emp1 values(1,'Krishna','15/dec/2025');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME      DOB
+---------- ---------- ---------
+         1 Krishna    15-DEC-25
+
+SQL> insert into emp1 values(1,'Krishna','15/12/2025');
+insert into emp1 values(1,'Krishna','15/12/2025')
+                                    *
+ERROR at line 1:
+ORA-01843: not a valid month
+
+
+SQL> insert into emp1 values(1,'Krishna','15/jan/2025');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME      DOB
+---------- ---------- ---------
+         1 Krishna    15-DEC-25
+         1 Krishna    15-JAN-25
+
+SQL> create table emp1(eid number(3),ename varchar(10),dob timestamp);
+create table emp1(eid number(3),ename varchar(10),dob timestamp)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> drop table emp1;
+
+Table dropped.
+
+SQL> create table emp1(eid number(3),ename varchar(10),dob timestamp);
+
+Table created.
+
+SQL> desc emp1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                NUMBER(3)
+ ENAME                                              VARCHAR2(10)
+ DOB                                                TIMESTAMP(6)
+
+SQL> insert into emp1 values(1,'Krishna','15/jan/2025');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME
+---------- ----------
+DOB
+---------------------------------------------------------------------------
+         1 Krishna
+15-JAN-25 12.00.00.000000 AM
+
+
+SQL> set linesize 150;
+SQL> select * from emp1;
+
+       EID ENAME      DOB
+---------- ---------- ---------------------------------------------------------------------------
+         1 Krishna    15-JAN-25 12.00.00.000000 AM
+
+SQL> set linesize 250;
+SQL> select * from emp1;
+
+       EID ENAME      DOB
+---------- ---------- ---------------------------------------------------------------------------
+         1 Krishna    15-JAN-25 12.00.00.000000 AM
+
+SQL> insert into emp1 values(1,'Krishna','15/jan/2025 10:50:30');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME      DOB
+---------- ---------- ---------------------------------------------------------------------------
+         1 Krishna    15-JAN-25 12.00.00.000000 AM
+         1 Krishna    15-JAN-25 10.50.30.000000 AM
+
+SQL> insert into emp1 values(1,'Krishna','15/jan/2025 10:50:30 50 PM');
+insert into emp1 values(1,'Krishna','15/jan/2025 10:50:30 50 PM')
+                                    *
+ERROR at line 1:
+ORA-01855: AM/A.M. or PM/P.M. required
+
+
+SQL> insert into emp1 values(1,'Krishna','15/jan/2025 10:50:30 50 P.M');
+insert into emp1 values(1,'Krishna','15/jan/2025 10:50:30 50 P.M')
+                                    *
+ERROR at line 1:
+ORA-01855: AM/A.M. or PM/P.M. required
+
+
+SQL> insert into emp1 values(1,'Krishna','15/jan/2025 10:50:30 PM');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME      DOB
+---------- ---------- ---------------------------------------------------------------------------
+         1 Krishna    15-JAN-25 12.00.00.000000 AM
+         1 Krishna    15-JAN-25 10.50.30.000000 AM
+         1 Krishna    15-JAN-25 10.50.30.000000 PM
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+18-DEC-25
+
+SQL> select sysdate from emp1;
+
+SYSDATE
+---------
+18-DEC-25
+18-DEC-25
+18-DEC-25
+
+SQL> select sysdate from emp1;
+
+SYSDATE
+---------
+18-DEC-25
+18-DEC-25
+18-DEC-25
+
+SQL> select * from emp1;
+
+       EID ENAME      DOB
+---------- ---------- ---------------------------------------------------------------------------
+         1 Krishna    15-JAN-25 12.00.00.000000 AM
+         1 Krishna    15-JAN-25 10.50.30.000000 AM
+         1 Krishna    15-JAN-25 10.50.30.000000 PM
+
+SQL> select * from dual;
+
+D
+-
+X
+
+SQL> select 10+20 from dual;
+
+     10+20
+----------
+        30
+
+SQL> select 10+20 from emp1;
+
+     10+20
+----------
+        30
+        30
+        30
+
+SQL> select 10+20 from student;
+
+     10+20
+----------
+        30
+        30
+        30
+        30
+        30
+        30
+        30
+        30
+
+8 rows selected.
+
+SQL> select 10+20 from dual;
+
+     10+20
+----------
+        30
+
+SQL> select 10+20  Addition from dual;
+
+  ADDITION
+----------
+        30
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+18-DEC-25
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+18-DEC-25 11.53.18.672000 AM +05:30
+
+SQL> create table emp1(eid number(3) not null,ename varchar2(10));
+create table emp1(eid number(3) not null,ename varchar2(10))
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> drop table emp1;
+
+Table dropped.
+
+SQL> create table emp1(eid number(3) not null,ename varchar2(10));
+
+Table created.
+
+SQL> desc emp1;
+ Name                                                                                Null?     Type
+ ----------------------------------------------------------------------------------------------------------------------------------------------- -------- ------------------------------------------------------------------------------------------------
+ EID                                                                                 NOT NULL NUMBER(3)
+ ENAME                                                                                VARCHAR2(10)
+
+SQL> set linesize 80;
+SQL> desc emp1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL NUMBER(3)
+ ENAME                                              VARCHAR2(10)
+
+SQL> insert into emp1(1,'fhfh');
+insert into emp1(1,'fhfh')
+                 *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> insert into emp1 values(1,'fhfh');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME
+---------- ----------
+         1 fhfh
+
+SQL> insert into emp1(ename) values('hgjhk');
+insert into emp1(ename) values('hgjhk')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("CLASSDB"."EMP1"."EID")
+
+
+SQL> drop table emp1;
+
+Table dropped.
+
+SQL> create table emp1(eid number(3) unique,ename varchar2(10));
+
+Table created.
+
+SQL> desc emp1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                NUMBER(3)
+ ENAME                                              VARCHAR2(10)
+
+SQL> insert into emp1(1,'fhfh');
+insert into emp1(1,'fhfh')
+                 *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> insert into emp1 values(1,'fhfh');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME
+---------- ----------
+         1 fhfh
+
+SQL> insert into emp1 values(1,'fhfh');
+insert into emp1 values(1,'fhfh')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (CLASSDB.SYS_C007004) violated
+
+
+SQL> insert into emp1(ename) values('hgjhk');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME
+---------- ----------
+         1 fhfh
+           hgjhk
+
+SQL> drop table emp1;
+
+Table dropped.
+
+SQL> create table emp1(eid number(3) primary key,ename varchar2(10) not null,sal number(5) unique);
+
+Table created.
+
+SQL> desc emp1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL NUMBER(3)
+ ENAME                                     NOT NULL VARCHAR2(10)
+ SAL                                                NUMBER(5)
+
+SQL> insert into emp1 values(1,'fhfh',5000);
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME             SAL
+---------- ---------- ----------
+         1 fhfh             5000
+
+SQL> insert into emp1 values(1,'fhfh',5000);
+insert into emp1 values(1,'fhfh',5000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (CLASSDB.SYS_C007006) violated
+
+
+SQL> insert into emp1(ename,sal) values('hgjhk',6000);
+insert into emp1(ename,sal) values('hgjhk',6000)
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("CLASSDB"."EMP1"."EID")
+
+
+SQL> insert into emp1(eid,sal) values(2,6000);
+insert into emp1(eid,sal) values(2,6000)
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("CLASSDB"."EMP1"."ENAME")
+
+
+SQL> insert into emp1 values(2,'fhfh',5000);
+insert into emp1 values(2,'fhfh',5000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (CLASSDB.SYS_C007007) violated
+
+
+SQL> create table emp2(eid number(3) primary key,ename varchar2(10) not null,sal number(5) unique check (sal>=5000));
+
+Table created.
+
+SQL> select * from emp2;
+
+no rows selected
+
+SQL> insert into emp2 values(1,'krishna',4000);
+insert into emp2 values(1,'krishna',4000)
+*
+ERROR at line 1:
+ORA-02290: check constraint (CLASSDB.SYS_C007009) violated
+
+
+SQL> insert into emp2 values(1,'krishna',5000);
+
+1 row created.
+
+SQL> insert into emp2 values(1,'krishna',6000);
+insert into emp2 values(1,'krishna',6000)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (CLASSDB.SYS_C007010) violated
+
+
+SQL> insert into emp2 values(2,'krishna',6000);
+
+1 row created.
+
+SQL> select * from emp2;
+
+       EID ENAME             SAL
+---------- ---------- ----------
+         1 krishna          5000
+         2 krishna          6000
+
+SQL> create table emp3(eid number(3) primary key,ename varchar2(10) not null,gender default 'F');
+create table emp3(eid number(3) primary key,ename varchar2(10) not null,gender default 'F')
+                                                                        *
+ERROR at line 1:
+ORA-02263: need to specify the datatype for this column
+
+
+SQL> create table emp3(eid number(3) primary key,ename varchar2(10) not null,gender varchar2 default 'F');
+create table emp3(eid number(3) primary key,ename varchar2(10) not null,gender varchar2 default 'F')
+                                                                                        *
+ERROR at line 1:
+ORA-00906: missing left parenthesis
+
+
+SQL> create table emp3(eid number(3) primary key,ename varchar2(10) not null,gender varchar2(2) default 'F');
+
+Table created.
+
+SQL> desc emp3;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL NUMBER(3)
+ ENAME                                     NOT NULL VARCHAR2(10)
+ GENDER                                             VARCHAR2(2)
+
+SQL> insert into emp3 values(2,'krishna','M');
+
+1 row created.
+
+SQL> select * from emp3;
+
+       EID ENAME      GE
+---------- ---------- --
+         2 krishna    M
+
+SQL> insert into emp3(eid,ename) values(3,'sdsfds'));
+insert into emp3(eid,ename) values(3,'sdsfds'))
+                                              *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> insert into emp3(eid,ename) values(3,'sdsfds');
+
+1 row created.
+
+SQL> select * from emp3;
+
+       EID ENAME      GE
+---------- ---------- --
+         2 krishna    M
+         3 sdsfds     F
+
+SQL> desc emp1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                       NOT NULL NUMBER(3)
+ ENAME                                     NOT NULL VARCHAR2(10)
+ SAL                                                NUMBER(5)
+
+SQL> insert into emp1(eid,ename) values(3,'sdsfds');
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME             SAL
+---------- ---------- ----------
+         1 fhfh             5000
+         3 sdsfds
+
+SQL> insert into emp1 values(2,'krishna');
+insert into emp1 values(2,'krishna')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into emp3 values(5,'mmmm');
+insert into emp3 values(5,'mmmm')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> create table emp4(eid number(3),ename varchar2(10),doj date deafult sysdate);
+create table emp4(eid number(3),ename varchar2(10),doj date deafult sysdate)
+                                                            *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table emp4(eid number(3),ename varchar2(10),doj deafult sysdate);
+create table emp4(eid number(3),ename varchar2(10),doj deafult sysdate)
+                                                               *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table emp4(eid number(3),ename varchar2(10),doj date (deafult sysdate));
+create table emp4(eid number(3),ename varchar2(10),doj date (deafult sysdate))
+                                                            *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table emp4(eid number(3),ename varchar2(10),doj date default sysdate);
+
+Table created.
+
+SQL> desc emp4;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EID                                                NUMBER(3)
+ ENAME                                              VARCHAR2(10)
+ DOJ                                                DATE
+
+SQL> insert into emp4(eid,ename) values(1,'wdwdsd');
+
+1 row created.
+
+SQL> select * from emp4;
+
+       EID ENAME      DOJ
+---------- ---------- ---------
+         1 wdwdsd     18-DEC-25
+
+SQL> select * from dual
+  2  ;
+
+D
+-
+X
+
+SQL> select * from emp4;
+
+       EID ENAME      DOJ
+---------- ---------- ---------
+         1 wdwdsd     18-DEC-25
+
+SQL> show user;
+USER is "CLASSDB"
+SQL> select user from emp4;
+
+USER
+------------------------------
+CLASSDB
+
+SQL> select user from emp3;
+
+USER
+------------------------------
+CLASSDB
+CLASSDB
+
+SQL> select user from dual;
+
+USER
+------------------------------
+CLASSDB
+
+SQL> select 30+20+10 from emp4;
+
+  30+20+10
+----------
+        60
+
+SQL> select 30+20+10 from emp2;
+
+  30+20+10
+----------
+        60
+        60
+
+SQL> select 30+20+10 from dual;
+
+  30+20+10
+----------
+        60
+
+SQL> select * from emp4;
+
+       EID ENAME      DOJ
+---------- ---------- ---------
+         1 wdwdsd     18-DEC-25
+
+SQL> select 30+20+10 from dual;
+
+  30+20+10
+----------
+        60
+
+SQL> truncate emp4;
+truncate emp4
+            *
+ERROR at line 1:
+ORA-03290: Invalid truncate command - missing CLUSTER or TABLE keyword
+
+
+SQL> truncate table  emp4;
+
+Table truncated.
+
+SQL> select * from emp4;
+
+no rows selected
+
+SQL> select 30+20+10 from emp4;
+
+no rows selected
+
+SQL> select 30+20+10 from dual;
+
+  30+20+10
+----------
+        60
+
+SQL> select * from dual;
+
+D
+-
+X
+
+SQL> select 30+20+10 from dual;
+
+  30+20+10
+----------
+        60
+
+SQL> select 30+20+10 Addtion from dual;
+
+   ADDTION
+----------
+        60
+
+SQL> select 30-20-10 Substraction from dual;
+
+SUBSTRACTION
+------------
+           0
+
+SQL> select 30+20-10 Substraction from dual;
+
+SUBSTRACTION
+------------
+          40
+
+SQL> select 30+20-10*20/2 Arthametic from dual;
+
+ARTHAMETIC
+----------
+       -50
+
+SQL> select (30+20-10*20/2)%5 Arthametic from dual;
+select (30+20-10*20/2)%5 Arthametic from dual
+                      *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> select 30+20-10*20/2%5 Arthametic from dual;
+select 30+20-10*20/2%5 Arthametic from dual
+                    *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> select 30+20-10*20/2% Arthametic from dual;
+select 30+20-10*20/2% Arthametic from dual
+                    *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> select (30+20-10*20/2)% Arthametic from dual;
+select (30+20-10*20/2)% Arthametic from dual
+                      *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> select (30+20-10*20/2)/2 Arthametic from dual;
+
+ARTHAMETIC
+----------
+       -25
+
+SQL>
