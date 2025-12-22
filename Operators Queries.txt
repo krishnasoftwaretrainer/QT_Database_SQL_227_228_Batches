@@ -1,0 +1,514 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Mar 1 16:12:37 2024
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect krishna
+Enter password:
+Connected.
+SQL> select 10+20 from dual;
+
+     10+20
+----------
+        30
+
+SQL> select 10-20 from dual;
+
+     10-20
+----------
+       -10
+
+SQL> select 10+20 as SUM from dual;
+
+       SUM
+----------
+        30
+
+SQL> SELECT SYSDATE FROM dual;
+
+SYSDATE
+---------
+01-MAR-24
+
+SQL> select 10+20 as SUM from dual;
+
+       SUM
+----------
+        30
+
+SQL> select 10-20 as SUb from dual;
+
+       SUB
+----------
+       -10
+
+SQL> select 10*20 as MUL from dual;
+
+       MUL
+----------
+       200
+
+SQL> select 10/20 as DIV from dual;
+
+       DIV
+----------
+        .5
+
+SQL> select 10%20 as MOdDIV from dual;
+select 10%20 as MOdDIV from dual
+         *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> SELECT * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL
+---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294
+         2 Mounika           100         99        100        299
+         3 Ashok              50         80         70        200
+         4 Mahesh             40         30         50        120
+         5 Suneetha           80         70         60        210
+
+SQL> alter student add(percentage number(6,2));
+alter student add(percentage number(6,2))
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command
+
+
+SQL> alter table student add(percentage number(6,2));
+
+Table altered.
+
+SQL> SELECT * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294
+         2 Mounika           100         99        100        299
+         3 Ashok              50         80         70        200
+         4 Mahesh             40         30         50        120
+         5 Suneetha           80         70         60        210
+
+SQL> update table student set percentage=total/100*3;
+update table student set percentage=total/100*3
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update student set percentage=total/100*3;
+
+5 rows updated.
+
+SQL> SELECT * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294       8.82
+         2 Mounika           100         99        100        299       8.97
+         3 Ashok              50         80         70        200          6
+         4 Mahesh             40         30         50        120        3.6
+         5 Suneetha           80         70         60        210        6.3
+
+SQL> update table student set percentage=(total/100)*3;
+update table student set percentage=(total/100)*3
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update table student set percentage=total/100*300;
+update table student set percentage=total/100*300
+       *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> update  student set percentage=total/100*300;
+
+5 rows updated.
+
+SQL> SELECT * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294        882
+         2 Mounika           100         99        100        299        897
+         3 Ashok              50         80         70        200        600
+         4 Mahesh             40         30         50        120        360
+         5 Suneetha           80         70         60        210        630
+
+SQL> update  student set percentage=(total/100)*300;
+
+5 rows updated.
+
+SQL> SELECT * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294        882
+         2 Mounika           100         99        100        299        897
+         3 Ashok              50         80         70        200        600
+         4 Mahesh             40         30         50        120        360
+         5 Suneetha           80         70         60        210        630
+
+SQL> update  student set percentage=(total/300)*100;
+
+5 rows updated.
+
+SQL> SELECT * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> update  student set percentage=total/3;
+
+5 rows updated.
+
+SQL> SELECT * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage>=95;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+
+SQL> select sid,sname from student where percentage>=95;
+
+       SID SNAME
+---------- ----------
+         1 Krishna
+         2 Mounika
+
+SQL> select sid,sname from student where percentage>98;
+
+       SID SNAME
+---------- ----------
+         2 Mounika
+
+SQL> select sid,sname from student where percentage>=98;
+
+       SID SNAME
+---------- ----------
+         1 Krishna
+         2 Mounika
+
+SQL> select sid,sname from student where percentage<=98;
+
+       SID SNAME
+---------- ----------
+         1 Krishna
+         3 Ashok
+         4 Mahesh
+         5 Suneetha
+
+SQL> select sid,sname from student where percentage<98;
+
+       SID SNAME
+---------- ----------
+         3 Ashok
+         4 Mahesh
+         5 Suneetha
+
+SQL> SELECT * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage=98;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+
+SQL> select * from student where percentage=95;
+
+no rows selected
+
+SQL> select * from student where percentage!=95;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage<>95;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage!=98;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage!=98 and percentage=90;
+
+no rows selected
+
+SQL> select * from student where percentage!=98 or percentage=90;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage =98 or percentage=90;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+
+SQL> select * from student where percentage =98 and percentage=90;
+
+no rows selected
+
+SQL> select * from student where percentage >=55 and subject1!= 35;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage >=55 or subject1!= 35;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage IS NOT 99;
+select * from student where percentage IS NOT 99
+                                              *
+ERROR at line 1:
+ORA-00908: missing NULL keyword
+
+
+SQL> select * from student where percentage IS NOT null;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> select * from student where percentage IS null;
+
+no rows selected
+
+SQL> SELECT * FROM student WHERE SNAME LIKE 'K%';
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+
+SQL> SELECT * FROM student WHERE SNAME LIKE '%K';
+
+no rows selected
+
+SQL> SELECT * FROM student WHERE SNAME LIKE '%k';
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         3 Ashok              50         80         70        200      66.67
+
+SQL> SELECT * FROM student WHERE SNAME LIKE 'k%';
+
+no rows selected
+
+SQL> SELECT * FROM student WHERE SNAME LIKE '%k%';
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+
+SQL> SELECT * FROM student WHERE SNAME LIKE '%K%';
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+
+SQL> SELECT * FROM student WHERE SNAME LIKE '%un%';
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         2 Mounika           100         99        100        299      99.67
+         5 Suneetha           80         70         60        210         70
+
+SQL> SELECT * FROM student WHERE SNAME LIKE '%hes%';
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         4 Mahesh             40         30         50        120         40
+
+SQL> SELECT * FROM student WHERE SNAME LIKE '%h%';
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> SELECT * FROM student WHERE subject1 IN (99, 100);
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+
+SQL> SELECT * FROM student WHERE subject1 IN (99, 95);
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+
+SQL> SELECT * FROM student WHERE subject1 IN (90, 95);
+
+no rows selected
+
+SQL> SELECT * FROM student WHERE subject1 between (90, 95);
+SELECT * FROM student WHERE subject1 between (90, 95)
+                                                *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> SELECT * FROM student WHERE subject1 between 90 and 95;
+
+no rows selected
+
+SQL> select * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> SELECT * FROM student WHERE subject1 between 90 and 100;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+
+SQL> SELECT * FROM student WHERE subject1 between 50 and 100;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         5 Suneetha           80         70         60        210         70
+
+SQL> SELECT * FROM student WHERE subject1 IN (50, 100);
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+
+SQL> select * from student;
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         1 Krishna            99         98         97        294         98
+         2 Mounika           100         99        100        299      99.67
+         3 Ashok              50         80         70        200      66.67
+         4 Mahesh             40         30         50        120         40
+         5 Suneetha           80         70         60        210         70
+
+SQL> SELECT subject1 FROM student WHERE EXISTS (SELECT subject1 FROM student WHERE total > 250);
+
+  SUBJECT1
+----------
+        99
+       100
+        50
+        40
+        80
+
+SQL> SELECT subject1 FROM student WHERE total > 250;
+
+  SUBJECT1
+----------
+        99
+       100
+
+SQL> SELECT subject1 FROM student WHERE total = 250;
+
+no rows selected
+
+SQL> SELECT subject1 FROM student WHERE EXISTS (SELECT subject1 FROM student WHERE total = 250);
+
+no rows selected
+
+SQL> SELECT * FROM student WHERE subject1 > ALL (SELECT subject1 FROM student WHERE total > 250);
+
+no rows selected
+
+SQL> SELECT * FROM student WHERE subject1 > ALL (SELECT subject1 FROM student WHERE total > 250);
+
+no rows selected
+
+SQL> SELECT subject1 FROM student WHERE total > 250;
+
+  SUBJECT1
+----------
+        99
+       100
+
+SQL> SELECT * FROM student WHERE subject1 > ANY (SELECT subject1 FROM student WHERE total > 250);
+
+       SID SNAME        SUBJECT1   SUBJECT2   SUBJECT3      TOTAL PERCENTAGE
+---------- ---------- ---------- ---------- ---------- ---------- ----------
+         2 Mounika           100         99        100        299      99.67
+
+SQL>
