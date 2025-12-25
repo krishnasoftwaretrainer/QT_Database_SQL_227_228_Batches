@@ -1740,3 +1740,1744 @@ ARTHAMETIC
        -25
 
 SQL>
+=====================================
+23-1-2025
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+
+9 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS
+---------- -------------------- ---------- ---------- ---------- ----------
+PERCENTAGE
+----------
+       101 Ramu                         90         80         70  240
+        80
+
+       102 Krishna                      90         90         90  270
+        90
+
+       103 Divya                        50         60         70  180
+        60
+
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS
+---------- -------------------- ---------- ---------- ---------- ----------
+PERCENTAGE
+----------
+       104 Swapna                       55         35         45  135
+        45
+
+       105 Nandhini                     93         43         43  179
+     59.67
+
+
+SQL> set linesize 200;
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240      80
+       102 Krishna                      90         90         90        270      90
+       103 Divya                        50         60         70        180      60
+       104 Swapna                       55         35         45        135      45
+       105 Nandhini                     93         43         43        179   59.67
+
+SQL> SELECT subject1 FROM stu1 WHERE EXISTS (SELECT subject1 FROM stu1 WHERE totalmarks = 250);
+SELECT subject1 FROM stu1 WHERE EXISTS (SELECT subject1 FROM stu1 WHERE totalmarks = 250)
+       *
+ERROR at line 1:
+ORA-00904: "SUBJECT1": invalid identifier
+
+
+SQL> SELECT sub1 FROM stu1 WHERE totalmarks = 250;
+
+no rows selected
+
+SQL> SELECT sub1 FROM stu1 WHERE totalmarks = 240;
+
+      SUB1
+----------
+        90
+
+SQL> SELECT sub1 FROM stu1 WHERE EXISTS (SELECT sub1 FROM stu1 WHERE totalmarks = 250);
+
+no rows selected
+
+SQL> SELECT sub1 FROM stu1 WHERE EXISTS (SELECT sub1 FROM stu1 WHERE totalmarks = 240);
+
+      SUB1
+----------
+        90
+        90
+        50
+        55
+        93
+
+SQL> SELECT sub1 FROM stu1 WHERE EXISTS (SELECT sub1 FROM stu1 WHERE totalmarks > 100);
+
+      SUB1
+----------
+        90
+        90
+        50
+        55
+        93
+
+SQL> SELECT sub1 FROM stu1 WHERE all = (SELECT sub1 FROM stu1 WHERE totalmarks > 100);
+SELECT sub1 FROM stu1 WHERE all = (SELECT sub1 FROM stu1 WHERE totalmarks > 100)
+                            *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> SELECT sub1 FROM stu1 WHERE sub1 all = (SELECT sub1 FROM stu1 WHERE totalmarks > 100);
+SELECT sub1 FROM stu1 WHERE sub1 all = (SELECT sub1 FROM stu1 WHERE totalmarks > 100)
+                                 *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> SELECT sub1 FROM stu1 WHERE sub1 = all (SELECT sub1 FROM stu1 WHERE totalmarks > 100);
+
+no rows selected
+
+SQL> SELECT htno,sub1 FROM stu1 WHERE sub1 = all (SELECT sub1 FROM stu1 WHERE totalmarks > 100);
+SELECT htno,sub1 FROM stu1 WHERE sub1 = all (SELECT sub1 FROM stu1 WHERE totalmarks > 100)
+       *
+ERROR at line 1:
+ORA-00904: "HTNO": invalid identifier
+
+
+SQL> SELECT sid,sub1 FROM stu1 WHERE sub1 = all (SELECT sub1 FROM stu1 WHERE totalmarks > 100);
+
+no rows selected
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 = all (SELECT sub1 FROM stu1 WHERE totalmarks > 100);
+
+no rows selected
+
+SQL> SELECT sub1 FROM stu1 WHERE totalmarks > 180;
+
+      SUB1
+----------
+        90
+        90
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 = all (SELECT sub1 FROM stu1 WHERE totalmarks > 180);
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       101 Ramu                         90
+       102 Krishna                      90
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 > all (SELECT sub1 FROM stu1 WHERE totalmarks > 180);
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       105 Nandhini                     93
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub2 > all (SELECT sub1 FROM stu1 WHERE totalmarks > 180);
+
+no rows selected
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 > all (SELECT sub1 FROM stu1 WHERE totalmarks > 180);
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       105 Nandhini                     93
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 > all (SELECT sub1 FROM stu1 WHERE totalmarks >= 180);
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       105 Nandhini                     93
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 >= all (SELECT sub1 FROM stu1 WHERE totalmarks >= 180);
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       102 Krishna                      90
+       101 Ramu                         90
+       105 Nandhini                     93
+
+SQL> SELECT sub1 FROM stu1 WHERE totalmarks >= 180;
+
+      SUB1
+----------
+        90
+        90
+        50
+
+SQL> SELECT * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 >= any (SELECT sub1 FROM stu1 WHERE totalmarks >= 180);
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       101 Ramu                         90
+       102 Krishna                      90
+       103 Divya                        50
+       104 Swapna                       55
+       105 Nandhini                     93
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 >= all (SELECT sub1 FROM stu1 WHERE totalmarks >= 180);
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       102 Krishna                      90
+       101 Ramu                         90
+       105 Nandhini                     93
+
+SQL> SELECT sid,sname,sub1 FROM stu1 WHERE sub1 > all (SELECT sub1 FROM stu1 WHERE totalmarks >= 180);
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       105 Nandhini                     93
+
+SQL>
+---------------------------------------
+24-12-2025
+--------
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Dec 24 11:49:18 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS
+---------- -------------------- ---------- ---------- ---------- ----------
+PERCENTAGE
+----------
+       101 Ramu                         90         80         70        240
+        80
+
+       102 Krishna                      90         90         90        270
+        90
+
+       103 Divya                        50         60         70        180
+        60
+
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS
+---------- -------------------- ---------- ---------- ---------- ----------
+PERCENTAGE
+----------
+       104 Swapna                       55         35         45        135
+        45
+
+       105 Nandhini                     93         43         43        179
+     59.67
+
+
+SQL> set linesize 200;
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> select avg(sub1) from stu1;
+
+ AVG(SUB1)
+----------
+      75.6
+
+SQL> select avg(sub2) from stu1;
+
+ AVG(SUB2)
+----------
+      61.6
+
+SQL> select avg(sname) from stu1;
+select avg(sname) from stu1
+           *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> select avg(sid) from stu1;
+
+  AVG(SID)
+----------
+       103
+
+SQL> select sum(sub1) from stu1;
+
+ SUM(SUB1)
+----------
+       378
+
+SQL> select sum(sname) from stu1;
+select sum(sname) from stu1
+           *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> select sum(totalmarks) from stu1;
+
+SUM(TOTALMARKS)
+---------------
+           1004
+
+SQL> select avg(totalmarks) from stu1;
+
+AVG(TOTALMARKS)
+---------------
+          200.8
+
+SQL> select max(totalmarks) from stu1;
+
+MAX(TOTALMARKS)
+---------------
+            270
+
+SQL> select min(totalmarks) from stu1;
+
+MIN(TOTALMARKS)
+---------------
+            135
+
+SQL> select count(*) from stu1;
+
+  COUNT(*)
+----------
+         5
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> insert into stu1(sid,sname) values(106,'Chaitra');
+
+1 row created.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 Chaitra
+
+6 rows selected.
+
+SQL> select count(*) from stu1;
+
+  COUNT(*)
+----------
+         6
+
+SQL> select count(sub1) from stu1;
+
+COUNT(SUB1)
+-----------
+          5
+
+SQL> select count(sid) from stu1;
+
+COUNT(SID)
+----------
+         6
+
+SQL> select count(distinct sid) from stu1;
+
+COUNT(DISTINCTSID)
+------------------
+                 6
+
+SQL> select count(distinct sub1) from stu1;
+
+COUNT(DISTINCTSUB1)
+-------------------
+                  4
+
+SQL> select count(sub1) from stu1;
+
+COUNT(SUB1)
+-----------
+          5
+
+SQL> select max(totalmarks) from stu1;
+
+MAX(TOTALMARKS)
+---------------
+            270
+
+SQL> select max(sname) from stu1;
+
+MAX(SNAME)
+--------------------
+Swapna
+
+SQL> select min(sname) from stu1;
+
+MIN(SNAME)
+--------------------
+Chaitra
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 Chaitra
+
+6 rows selected.
+
+SQL> select min(sid) from stu1;
+
+  MIN(SID)
+----------
+       101
+
+SQL> select min(totalmarks) from stu1;
+
+MIN(TOTALMARKS)
+---------------
+            135
+
+SQL> select max(totalmarks) from stu1;
+
+MAX(TOTALMARKS)
+---------------
+            270
+
+SQL> select max(percentage) from stu1;
+
+MAX(PERCENTAGE)
+---------------
+             90
+
+SQL> select max(sname) from stu1;
+
+MAX(SNAME)
+--------------------
+Swapna
+
+SQL> select count(sname) from stu1;
+
+COUNT(SNAME)
+------------
+           6
+
+SQL> select count(distinct sname) from stu1;
+
+COUNT(DISTINCTSNAME)
+--------------------
+                   6
+
+SQL> select upper('abcd') from dual;
+
+UPPE
+----
+ABCD
+
+SQL> select upper('abcd') from stu1;
+
+UPPE
+----
+ABCD
+ABCD
+ABCD
+ABCD
+ABCD
+ABCD
+
+6 rows selected.
+
+SQL> select upper('ABcdefgh') from stu1;
+
+UPPER('A
+--------
+ABCDEFGH
+ABCDEFGH
+ABCDEFGH
+ABCDEFGH
+ABCDEFGH
+ABCDEFGH
+
+6 rows selected.
+
+SQL> select upper('ABCDEFG') from stu1;
+
+UPPER('
+-------
+ABCDEFG
+ABCDEFG
+ABCDEFG
+ABCDEFG
+ABCDEFG
+ABCDEFG
+
+6 rows selected.
+
+SQL> select lower('ABCDEFG') from stu1;
+
+LOWER('
+-------
+abcdefg
+abcdefg
+abcdefg
+abcdefg
+abcdefg
+abcdefg
+
+6 rows selected.
+
+SQL> select lower(sub1) from stu1;
+
+LOWER(SUB1)
+----------------------------------------
+90
+90
+50
+55
+93
+
+
+6 rows selected.
+
+SQL> select lower(sname) from stu1;
+
+LOWER(SNAME)
+--------------------
+ramu
+krishna
+divya
+swapna
+nandhini
+chaitra
+
+6 rows selected.
+
+SQL> select upper(sname) from stu1;
+
+UPPER(SNAME)
+--------------------
+RAMU
+KRISHNA
+DIVYA
+SWAPNA
+NANDHINI
+CHAITRA
+
+6 rows selected.
+
+SQL> select initcap(sname) from stu1;
+
+INITCAP(SNAME)
+--------------------
+Ramu
+Krishna
+Divya
+Swapna
+Nandhini
+Chaitra
+
+6 rows selected.
+
+SQL> update stu1 set sname='chaitra' from stu1;
+update stu1 set sname='chaitra' from stu1
+                                *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> update stu1 set sname='chaitra' where sid=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select initcap(sname) from stu1;
+
+INITCAP(SNAME)
+--------------------
+Ramu
+Krishna
+Divya
+Swapna
+Nandhini
+Chaitra
+
+6 rows selected.
+
+SQL> select upper(sname) from stu1;
+
+UPPER(SNAME)
+--------------------
+RAMU
+KRISHNA
+DIVYA
+SWAPNA
+NANDHINI
+CHAITRA
+
+6 rows selected.
+
+SQL> select length('abcd') from dual;
+
+LENGTH('ABCD')
+--------------
+             4
+
+SQL> select length(sname) from stu1;
+
+LENGTH(SNAME)
+-------------
+            4
+            7
+            5
+            6
+            8
+            7
+
+6 rows selected.
+
+SQL> select length(sub1) from stu1;
+
+LENGTH(SUB1)
+------------
+           2
+           2
+           2
+           2
+           2
+
+
+6 rows selected.
+
+SQL> select count(sub1) from stu1;
+
+COUNT(SUB1)
+-----------
+          5
+
+SQL> select length(percentage) from stu1;
+
+LENGTH(PERCENTAGE)
+------------------
+                 2
+                 2
+                 2
+                 2
+                 5
+
+
+6 rows selected.
+
+SQL> select replace(sname,'ramu','dsgsg') from stu1;
+
+REPLACE(SNAME,'RAMU','DSGSG')
+----------------------------------------------------------------------------------------------------
+Ramu
+Krishna
+Divya
+Swapna
+Nandhini
+chaitra
+
+6 rows selected.
+
+SQL> select replace(sname,'Ramu','dsgsg') from stu1;
+
+REPLACE(SNAME,'RAMU','DSGSG')
+----------------------------------------------------------------------------------------------------
+dsgsg
+Krishna
+Divya
+Swapna
+Nandhini
+chaitra
+
+6 rows selected.
+
+SQL> select replace(sname,'abcd','dsgsg') from stu1;
+
+REPLACE(SNAME,'ABCD','DSGSG')
+----------------------------------------------------------------------------------------------------
+Ramu
+Krishna
+Divya
+Swapna
+Nandhini
+chaitra
+
+6 rows selected.
+
+SQL> select replace(sub1,'90','00') from stu1;
+
+REPLACE(SUB1,'90','00')
+--------------------------------------------------------------------------------
+00
+00
+50
+55
+93
+
+
+6 rows selected.
+
+SQL> select replace('hello','h','H') from stu1;
+
+REPLA
+-----
+Hello
+Hello
+Hello
+Hello
+Hello
+Hello
+
+6 rows selected.
+
+SQL> select replace('hello','h','H') from dual;
+
+REPLA
+-----
+Hello
+
+SQL> select replace('hello','k','H') from dual;
+
+REPLA
+-----
+hello
+
+SQL> select lpad('Krishna',10,'b') from dual;
+
+LPAD('KRIS
+----------
+bbbKrishna
+
+SQL> select rpad('Krishna',10,'b') from dual;
+
+RPAD('KRIS
+----------
+Krishnabbb
+
+SQL> select rpad('Krishna',15,'b') from dual;
+
+RPAD('KRISHNA',
+---------------
+Krishnabbbbbbbb
+
+SQL> select rpad('Krishna',15,'bfd') from dual;
+
+RPAD('KRISHNA',
+---------------
+Krishnabfdbfdbf
+
+SQL> select rpad(sname,15,' garu') from dual;
+select rpad(sname,15,' garu') from dual
+            *
+ERROR at line 1:
+ORA-00904: "SNAME": invalid identifier
+
+
+SQL> select rpad(sname,15,' garu') from stu1;
+
+RPAD(SNAME,15,'GARU')
+------------------------------------------------------------
+Ramu garu garu
+Krishna garu ga
+Divya garu garu
+Swapna garu gar
+Nandhini garu g
+chaitra garu ga
+
+6 rows selected.
+
+SQL> select rpad(sname,10,' garu') from stu1;
+
+RPAD(SNAME,10,'GARU')
+----------------------------------------
+Ramu garu
+Krishna ga
+Divya garu
+Swapna gar
+Nandhini g
+chaitra ga
+
+6 rows selected.
+
+SQL> select rpad(sname,15,' garu') from stu1;
+
+RPAD(SNAME,15,'GARU')
+------------------------------------------------------------
+Ramu garu garu
+Krishna garu ga
+Divya garu garu
+Swapna garu gar
+Nandhini garu g
+chaitra garu ga
+
+6 rows selected.
+
+SQL> select rpad(sub1,5,'.00') from stu1;
+
+RPAD(SUB1,5,'.00')
+--------------------
+90.00
+90.00
+50.00
+55.00
+93.00
+
+
+6 rows selected.
+
+SQL> select lpad(sub1,5,'00') from stu1;
+
+LPAD(SUB1,5,'00')
+--------------------
+00090
+00090
+00050
+00055
+00093
+
+
+6 rows selected.
+
+SQL> select rpad(percentage,5,'.00') from stu1;
+
+RPAD(PERCENTAGE,5,'.
+--------------------
+80.00
+90.00
+60.00
+45.00
+59.67
+
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select rpad(percentage,5,'.00') as Percentage from stu1;
+
+PERCENTAGE
+--------------------
+80.00
+90.00
+60.00
+45.00
+59.67
+
+
+6 rows selected.
+
+SQL> select trim('   abcd  ') from dual;
+
+TRIM
+----
+abcd
+
+SQL> select ltrim('   abcd  ') from dual;
+
+LTRIM(
+------
+abcd
+
+SQL> select rtrim('   abcd  ') from dual;
+
+RTRIM('
+-------
+   abcd
+
+SQL> select trim('a', 'abcd') from dual;
+select trim('a', 'abcd') from dual
+               *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> select trim('a' from 'abcd') from dual;
+
+TRI
+---
+bcd
+
+SQL> select trim('a' from 'aaabcdaaa') from dual;
+
+TRI
+---
+bcd
+
+SQL> select ltrim('a' from 'aaabcdaaa') from dual;
+select ltrim('a' from 'aaabcdaaa') from dual
+                 *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> select ltrim('a','aaabcdaaa') from dual;
+
+L
+-
+
+
+SQL> select rtrim('a','aaabcdaaa') from dual;
+
+R
+-
+
+
+SQL> select ltrim('aaabcdaaa','a') from dual;
+
+LTRIM(
+------
+bcdaaa
+
+SQL> select rtrim('aaabcdaaa','a') from dual;
+
+RTRIM(
+------
+aaabcd
+
+SQL> select rtrim(sname,'a') from stu1;
+
+RTRIM(SNAME,'A')
+--------------------
+Ramu
+Krishn
+Divy
+Swapn
+Nandhini
+chaitr
+
+6 rows selected.
+
+SQL> select rtrim(sname,'i') from stu1;
+
+RTRIM(SNAME,'I')
+--------------------
+Ramu
+Krishna
+Divya
+Swapna
+Nandhin
+chaitra
+
+6 rows selected.
+
+SQL> select ltrim(sname,'R') from stu1;
+
+LTRIM(SNAME,'R')
+--------------------
+amu
+Krishna
+Divya
+Swapna
+Nandhini
+chaitra
+
+6 rows selected.
+
+SQL> select ltrim(sname,'Ra') from stu1;
+
+LTRIM(SNAME,'RA')
+--------------------
+mu
+Krishna
+Divya
+Swapna
+Nandhini
+chaitra
+
+6 rows selected.
+
+SQL> select ltrim(sname,'Ramu') from stu1;
+
+LTRIM(SNAME,'RAMU')
+--------------------
+
+Krishna
+Divya
+Swapna
+Nandhini
+chaitra
+
+6 rows selected.
+
+SQL> select ltrim(sid,'1') from stu1;
+
+LTRIM(SID,'1')
+----------------------------------------
+01
+02
+03
+04
+05
+06
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select ltrim(sid,'10') from stu1;
+
+LTRIM(SID,'10')
+----------------------------------------
+
+2
+3
+4
+5
+6
+
+6 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select instr(sid,'1') from stu1;
+
+INSTR(SID,'1')
+--------------
+             1
+             1
+             1
+             1
+             1
+             1
+
+6 rows selected.
+
+SQL> select instr(sid,'4') from stu1;
+
+INSTR(SID,'4')
+--------------
+             0
+             0
+             0
+             3
+             0
+             0
+
+6 rows selected.
+
+SQL> select instr(sid,'0') from stu1;
+
+INSTR(SID,'0')
+--------------
+             2
+             2
+             2
+             2
+             2
+             2
+
+6 rows selected.
+
+SQL> select instr(sname,'a') from stu1;
+
+INSTR(SNAME,'A')
+----------------
+               2
+               7
+               5
+               3
+               2
+               3
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select instr(sname,'c') from stu1;
+
+INSTR(SNAME,'C')
+----------------
+               0
+               0
+               0
+               0
+               0
+               1
+
+6 rows selected.
+
+SQL> select instr(sname,'ch') from stu1;
+
+INSTR(SNAME,'CH')
+-----------------
+                0
+                0
+                0
+                0
+                0
+                1
+
+6 rows selected.
+
+SQL> select substr(sname,3,2) from stu1;
+
+SUBSTR(S
+--------
+mu
+is
+vy
+ap
+nd
+ai
+
+6 rows selected.
+
+SQL> select substr(sname,2,3) from stu1;
+
+SUBSTR(SNAME
+------------
+amu
+ris
+ivy
+wap
+and
+hai
+
+6 rows selected.
+
+SQL> select substr(sname,2,5) from stu1;
+
+SUBSTR(SNAME,2,5)
+--------------------
+amu
+rishn
+ivya
+wapna
+andhi
+haitr
+
+6 rows selected.
+
+SQL> select substr(sname,-2,3) from stu1;
+
+SUBSTR(S
+--------
+mu
+na
+ya
+na
+ni
+ra
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select substr(sname,-2,-3) from stu1;
+
+S
+-
+
+
+
+
+
+
+
+6 rows selected.
+
+SQL> select substr(sname,-2,5) from stu1;
+
+SUBSTR(S
+--------
+mu
+na
+ya
+na
+ni
+ra
+
+6 rows selected.
+
+SQL> select substr(sname,-2,1) from stu1;
+
+SUBS
+----
+m
+n
+y
+n
+n
+r
+
+6 rows selected.
+
+SQL> select substr(sname,-3,1) from stu1;
+
+SUBS
+----
+a
+h
+v
+p
+i
+t
+
+6 rows selected.
+
+SQL> select substr(sname,-3,3) from stu1;
+
+SUBSTR(SNAME
+------------
+amu
+hna
+vya
+pna
+ini
+tra
+
+6 rows selected.
+
+SQL> select substr(sname,-5,3) from stu1;
+
+SUBSTR(SNAME
+------------
+
+ish
+Div
+wap
+dhi
+ait
+
+6 rows selected.
+
+SQL> select substr(sname,-5,2) from stu1;
+
+SUBSTR(S
+--------
+
+is
+Di
+wa
+dh
+ai
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select substr(sname,-2,3) from stu1;
+
+SUBSTR(S
+--------
+mu
+na
+ya
+na
+ni
+ra
+
+6 rows selected.
+
+SQL> select substr(sname,-2,1) from stu1;
+
+SUBS
+----
+m
+n
+y
+n
+n
+r
+
+6 rows selected.
+
+SQL> select substr(sname,-2,-1) from stu1;
+
+S
+-
+
+
+
+
+
+
+
+6 rows selected.
+
+SQL> select substr(sname,-4,-2) from stu1;
+
+S
+-
+
+
+
+
+
+
+
+6 rows selected.
+
+SQL> select concat('hello','world') from dual;
+
+CONCAT('HE
+----------
+helloworld
+
+SQL> select concat('hello',' world') from dual;
+
+CONCAT('HEL
+-----------
+hello world
+
+SQL> select concat('hello',' world') as Message from dual;
+
+MESSAGE
+-----------
+hello world
+
+SQL> select concat(sname,' world') from stu1;
+
+CONCAT(SNAME,'WORLD')
+--------------------------
+Ramu world
+Krishna world
+Divya world
+Swapna world
+Nandhini world
+chaitra world
+
+6 rows selected.
+
+SQL> select concat(sname,sid, ' world') from stu1;
+select concat(sname,sid, ' world') from stu1
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> select concat(sname,sid) from stu1;
+
+CONCAT(SNAME,SID)
+------------------------------------------------------------
+Ramu101
+Krishna102
+Divya103
+Swapna104
+Nandhini105
+chaitra106
+
+6 rows selected.
+
+SQL> select concat(sname,sid,sub1) from stu1;
+select concat(sname,sid,sub1) from stu1
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> select concat(' world',sname) from stu1;
+
+CONCAT('WORLD',SNAME)
+--------------------------
+ worldRamu
+ worldKrishna
+ worldDivya
+ worldSwapna
+ worldNandhini
+ worldchaitra
+
+6 rows selected.
+
+SQL> select concat(sid,sname) from stu1;
+
+CONCAT(SID,SNAME)
+------------------------------------------------------------
+101Ramu
+102Krishna
+103Divya
+104Swapna
+105Nandhini
+106chaitra
+
+6 rows selected.
+
+SQL> select concat(sid,sname) from stu1;
+
+CONCAT(SID,SNAME)
+------------------------------------------------------------
+101Ramu
+102Krishna
+103Divya
+104Swapna
+105Nandhini
+106chaitra
+
+6 rows selected.
+
+SQL> select sname || ',' || sid from stu1;
+
+SNAME||','||SID
+-------------------------------------------------------------
+Ramu,101
+Krishna,102
+Divya,103
+Swapna,104
+Nandhini,105
+chaitra,106
+
+6 rows selected.
+
+SQL> select concat(sid,sname) from stu1;
+
+CONCAT(SID,SNAME)
+------------------------------------------------------------
+101Ramu
+102Krishna
+103Divya
+104Swapna
+105Nandhini
+106chaitra
+
+6 rows selected.
+
+SQL> select concat(sid,   sname) from stu1;
+
+CONCAT(SID,SNAME)
+------------------------------------------------------------
+101Ramu
+102Krishna
+103Divya
+104Swapna
+105Nandhini
+106chaitra
+
+6 rows selected.
+
+SQL> select sname || '  ' || sid from stu1;
+
+SNAME||''||SID
+--------------------------------------------------------------
+Ramu  101
+Krishna  102
+Divya  103
+Swapna  104
+Nandhini  105
+chaitra  106
+
+6 rows selected.
+
+SQL> select 'Hai'  || '  ' || 'Hello' from stu1;
+
+'HAI'||''|
+----------
+Hai  Hello
+Hai  Hello
+Hai  Hello
+Hai  Hello
+Hai  Hello
+Hai  Hello
+
+6 rows selected.
+
+SQL> select 'Hai'  || 'and' || 'Hello' from stu1;
+
+'HAI'||'AND
+-----------
+HaiandHello
+HaiandHello
+HaiandHello
+HaiandHello
+HaiandHello
+HaiandHello
+
+6 rows selected.
+
+SQL> select 'Hai'  || ' and ' || 'Hello' from stu1;
+
+'HAI'||'AND'|
+-------------
+Hai and Hello
+Hai and Hello
+Hai and Hello
+Hai and Hello
+Hai and Hello
+Hai and Hello
+
+6 rows selected.
+
+SQL> select sid  || ' and ' || 'or' || sname from stu1;
+
+SID||'AND'||'OR'||SNAME
+-------------------------------------------------------------------
+101 and orRamu
+102 and orKrishna
+103 and orDivya
+104 and orSwapna
+105 and orNandhini
+106 and orchaitra
+
+6 rows selected.
+
+SQL> select sid  || ' and ' || 'or ' || sname from stu1;
+
+SID||'AND'||'OR'||SNAME
+--------------------------------------------------------------------
+101 and or Ramu
+102 and or Krishna
+103 and or Divya
+104 and or Swapna
+105 and or Nandhini
+106 and or chaitra
+
+6 rows selected.
+
+SQL> select sid  || ' and ' || sub1 || 'or ' || sname from stu1;
+
+SID||'AND'||SUB1||'OR'||SNAME
+------------------------------------------------------------------------------------------------------------
+101 and 90or Ramu
+102 and 90or Krishna
+103 and 50or Divya
+104 and 55or Swapna
+105 and 93or Nandhini
+106 and or chaitra
+
+6 rows selected.
+
+SQL> select sid  || ' and ' || sub1 || ' or ' || sname from stu1;
+
+SID||'AND'||SUB1||'OR'||SNAME
+-------------------------------------------------------------------------------------------------------------
+101 and 90 or Ramu
+102 and 90 or Krishna
+103 and 50 or Divya
+104 and 55 or Swapna
+105 and 93 or Nandhini
+106 and  or chaitra
+
+6 rows selected.
+
+SQL> select sid  || ' and ' || sname || ' or ' || sub1 from stu1;
+
+SID||'AND'||SNAME||'OR'||SUB1
+-------------------------------------------------------------------------------------------------------------
+101 and Ramu or 90
+102 and Krishna or 90
+103 and Divya or 50
+104 and Swapna or 55
+105 and Nandhini or 93
+106 and chaitra or
+
+6 rows selected.
+
+SQL> select sid  || ' and ' || sname || ' or ' || sub1 as Details from stu1;
+
+DETAILS
+-------------------------------------------------------------------------------------------------------------
+101 and Ramu or 90
+102 and Krishna or 90
+103 and Divya or 50
+104 and Swapna or 55
+105 and Nandhini or 93
+106 and chaitra or
+
+6 rows selected.
+
+SQL> select sid  || sname || sub1  as Details from stu1;
+
+DETAILS
+----------------------------------------------------------------------------------------------------
+101Ramu90
+102Krishna90
+103Divya50
+104Swapna55
+105Nandhini93
+106chaitra
+
+6 rows selected.
+
+SQL> select sid  || and ||sname || sub1  as Details from stu1;
+select sid  || and ||sname || sub1  as Details from stu1
+               *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select sid  || 'and' ||sname || sub1  as Details from stu1;
+
+DETAILS
+-------------------------------------------------------------------------------------------------------
+101andRamu90
+102andKrishna90
+103andDivya50
+104andSwapna55
+105andNandhini93
+106andchaitra
+
+6 rows selected.
+
+SQL> select concat(sid,sname) from stu1;
+
+CONCAT(SID,SNAME)
+------------------------------------------------------------
+101Ramu
+102Krishna
+103Divya
+104Swapna
+105Nandhini
+106chaitra
+
+6 rows selected.
+
+SQL> select concat(sid,sname,sub1) from stu1;
+select concat(sid,sname,sub1) from stu1
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> select concat('Hai','Hello') from stu1;
+
+CONCAT('
+--------
+HaiHello
+HaiHello
+HaiHello
+HaiHello
+HaiHello
+HaiHello
+
+6 rows selected.
+
+SQL> select concat('Hai',' Hello') from stu1;
+
+CONCAT('H
+---------
+Hai Hello
+Hai Hello
+Hai Hello
+Hai Hello
+Hai Hello
+Hai Hello
+
+6 rows selected.
+
+SQL>
