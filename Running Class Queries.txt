@@ -3481,3 +3481,1063 @@ Hai Hello
 6 rows selected.
 
 SQL>
+======================================
+26-12-2025
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Dec 26 11:52:42 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> select translate('a',k') from dual;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> select translate('a','k') from dual;
+select translate('a','k') from dual
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> select translate('a','1') from dual;
+select translate('a','1') from dual
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> select translate(sname,'a','k') from stu1;
+
+TRANSLATE(SNAME,'A','K')
+--------------------------------------------------------------------------------
+Rkmu
+Krishnk
+Divyk
+Swkpnk
+Nkndhini
+chkitrk
+
+6 rows selected.
+
+SQL> select translate(sname,'a','k') from dual;
+select translate(sname,'a','k') from dual
+                 *
+ERROR at line 1:
+ORA-00904: "SNAME": invalid identifier
+
+
+SQL> select translate('a','k') from dual;
+select translate('a','k') from dual
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> select translate(sname,'a','7') from dual;
+select translate(sname,'a','7') from dual
+                 *
+ERROR at line 1:
+ORA-00904: "SNAME": invalid identifier
+
+
+SQL> select translate(sname,'a','7') from stu1;
+
+TRANSLATE(SNAME,'A','7')
+--------------------------------------------------------------------------------
+R7mu
+Krishn7
+Divy7
+Sw7pn7
+N7ndhini
+ch7itr7
+
+6 rows selected.
+
+SQL> select translate(sname,'as','71') from stu1;
+
+TRANSLATE(SNAME,'AS','71')
+--------------------------------------------------------------------------------
+R7mu
+Kri1hn7
+Divy7
+Sw7pn7
+N7ndhini
+ch7itr7
+
+6 rows selected.
+
+SQL> select translate(sname,'ash','710') from stu1;
+
+TRANSLATE(SNAME,'ASH','710')
+--------------------------------------------------------------------------------
+R7mu
+Kri10n7
+Divy7
+Sw7pn7
+N7nd0ini
+c07itr7
+
+6 rows selected.
+
+SQL> select sname ascii('a') from stu1;
+select sname ascii('a') from stu1
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select sname ascii(sname,'a') from stu1;
+select sname ascii(sname,'a') from stu1
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select sname ascii(sname) from stu1;
+select sname ascii(sname) from stu1
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> desc stu1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(3)
+ SNAME                                              VARCHAR2(20)
+ SUB1                                               NUMBER(3)
+ SUB2                                               NUMBER(3)
+ SUB3                                               NUMBER(3)
+ TOTALMARKS                                         NUMBER(3)
+ PERCENTAGE                                         NUMBER(6,2)
+
+SQL> select sname ascii(sname) from stu1;
+select sname ascii(sname) from stu1
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select sname, ascii(sname) from stu1;
+
+SNAME                ASCII(SNAME)
+-------------------- ------------
+Ramu                           82
+Krishna                        75
+Divya                          68
+Swapna                         83
+Nandhini                       78
+chaitra                        99
+
+6 rows selected.
+
+SQL> select ascii('a') from dual;
+
+ASCII('A')
+----------
+        97
+
+SQL> select ascii('A') from dual;
+
+ASCII('A')
+----------
+        65
+
+SQL> select ascii('D') from dual;
+
+ASCII('D')
+----------
+        68
+
+SQL> select ascii('1') from dual;
+
+ASCII('1')
+----------
+        49
+
+SQL> select sname, ascii(sname) from stu1;
+
+SNAME                ASCII(SNAME)
+-------------------- ------------
+Ramu                           82
+Krishna                        75
+Divya                          68
+Swapna                         83
+Nandhini                       78
+chaitra                        99
+
+6 rows selected.
+
+SQL> select ascii('abcd') from dual;
+
+ASCII('ABCD')
+-------------
+           97
+
+SQL> select abs(10) from dual;
+
+   ABS(10)
+----------
+        10
+
+SQL> select abs(-10) from dual;
+
+  ABS(-10)
+----------
+        10
+
+SQL> select abs(10) from dual;
+
+   ABS(10)
+----------
+        10
+
+SQL> select abs(-10.33) from dual;
+
+ABS(-10.33)
+-----------
+      10.33
+
+SQL> select sqrt(25) from dual;
+
+  SQRT(25)
+----------
+         5
+
+SQL> select sqrt(525) from dual;
+
+ SQRT(525)
+----------
+22.9128785
+
+SQL> select sqrt(9) from dual;
+
+   SQRT(9)
+----------
+         3
+
+SQL> select sqrt(sub1) from stu1;
+
+SQRT(SUB1)
+----------
+9.48683298
+9.48683298
+7.07106781
+7.41619849
+9.64365076
+
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS
+---------- -------------------- ---------- ---------- ---------- ----------
+PERCENTAGE
+----------
+       101 Ramu                         90         80         70        240
+        80
+
+       102 Krishna                      90         90         90        270
+        90
+
+       103 Divya                        50         60         70        180
+        60
+
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS
+---------- -------------------- ---------- ---------- ---------- ----------
+PERCENTAGE
+----------
+       104 Swapna                       55         35         45        135
+        45
+
+       105 Nandhini                     93         43         43        179
+     59.67
+
+       106 chaitra
+
+
+
+6 rows selected.
+
+SQL> set linesize 200;
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select sqrt(sub1) from stu1;
+
+SQRT(SUB1)
+----------
+9.48683298
+9.48683298
+7.07106781
+7.41619849
+9.64365076
+
+
+6 rows selected.
+
+SQL> select mod(5,2) from dual;
+
+  MOD(5,2)
+----------
+         1
+
+SQL> select mod(15,4) from dual;
+
+ MOD(15,4)
+----------
+         3
+
+SQL> select mod(4,14) from dual;
+
+ MOD(4,14)
+----------
+         4
+
+SQL> select mod(14,4) from dual;
+
+ MOD(14,4)
+----------
+         2
+
+SQL> select round(41.33) from dual;
+
+ROUND(41.33)
+------------
+          41
+
+SQL> select round(41.53) from dual;
+
+ROUND(41.53)
+------------
+          42
+
+SQL> select round(98.33) from dual;
+
+ROUND(98.33)
+------------
+          98
+
+SQL> select round(98.63) from dual;
+
+ROUND(98.63)
+------------
+          99
+
+SQL> select floor(98.63) from dual;
+
+FLOOR(98.63)
+------------
+          98
+
+SQL> select ceil(98.63) from dual;
+
+CEIL(98.63)
+-----------
+         99
+
+SQL> select floor(98.33) from dual;
+
+FLOOR(98.33)
+------------
+          98
+
+SQL> select ceil(98.33) from dual;
+
+CEIL(98.33)
+-----------
+         99
+
+SQL> select ceil(98.11) from dual;
+
+CEIL(98.11)
+-----------
+         99
+
+SQL> select floor(98.99) from dual;
+
+FLOOR(98.99)
+------------
+          98
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select floor(percentage) from stu1;
+
+FLOOR(PERCENTAGE)
+-----------------
+               80
+               90
+               60
+               45
+               59
+
+
+6 rows selected.
+
+SQL> select ceil(percentage) from stu1;
+
+CEIL(PERCENTAGE)
+----------------
+              80
+              90
+              60
+              45
+              60
+
+
+6 rows selected.
+
+SQL> select round(percentage) from stu1;
+
+ROUND(PERCENTAGE)
+-----------------
+               80
+               90
+               60
+               45
+               60
+
+
+6 rows selected.
+
+SQL> select trunc(40.33) from dual;
+
+TRUNC(40.33)
+------------
+          40
+
+SQL> select trunc(40.12345,2) from dual;
+
+TRUNC(40.12345,2)
+-----------------
+            40.12
+
+SQL> select trunc(40.12345,4) from dual;
+
+TRUNC(40.12345,4)
+-----------------
+          40.1234
+
+SQL> select trunc(8346,1) from dual;
+
+TRUNC(8346,1)
+-------------
+         8346
+
+SQL> select trunc(8346,0) from dual;
+
+TRUNC(8346,0)
+-------------
+         8346
+
+SQL> select trunc(8346,2) from dual;
+
+TRUNC(8346,2)
+-------------
+         8346
+
+SQL> select trunc(8346.1,2) from dual;
+
+TRUNC(8346.1,2)
+---------------
+         8346.1
+
+SQL> select trunc(8346.154896,2) from dual;
+
+TRUNC(8346.154896,2)
+--------------------
+             8346.15
+
+SQL> select trunc(8346,-1) from dual;
+
+TRUNC(8346,-1)
+--------------
+          8340
+
+SQL> select trunc(8346,-2) from dual;
+
+TRUNC(8346,-2)
+--------------
+          8300
+
+SQL> select trunc(8346,-3) from dual;
+
+TRUNC(8346,-3)
+--------------
+          8000
+
+SQL> select trunc(8346,-4) from dual;
+
+TRUNC(8346,-4)
+--------------
+             0
+
+SQL> select trunc(58346,-4) from dual;
+
+TRUNC(58346,-4)
+---------------
+          50000
+
+SQL> select trunc(sub1) from stu1;
+
+TRUNC(SUB1)
+-----------
+         90
+         90
+         50
+         55
+         93
+
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select trunc(sub1,-1) from stu1;
+
+TRUNC(SUB1,-1)
+--------------
+            90
+            90
+            50
+            50
+            90
+
+
+6 rows selected.
+
+SQL> select trunc(sub1,-2) from stu1;
+
+TRUNC(SUB1,-2)
+--------------
+             0
+             0
+             0
+             0
+             0
+
+
+6 rows selected.
+
+SQL> select greatest(100,300,200) from dual;
+
+GREATEST(100,300,200)
+---------------------
+                  300
+
+SQL> select greatest(100,300,200,500) from dual;
+
+GREATEST(100,300,200,500)
+-------------------------
+                      500
+
+SQL> select greatest(sub1) from stu1;
+
+GREATEST(SUB1)
+--------------
+            90
+            90
+            50
+            55
+            93
+
+
+6 rows selected.
+
+SQL> select least(100,300,200,500) from dual;
+
+LEAST(100,300,200,500)
+----------------------
+                   100
+
+SQL> select sign(-10) from dual;
+
+ SIGN(-10)
+----------
+        -1
+
+SQL> select sign(10) from dual;
+
+  SIGN(10)
+----------
+         1
+
+SQL> select sign(0) from dual;
+
+   SIGN(0)
+----------
+         0
+
+SQL> select sign(10.25689) from dual;
+
+SIGN(10.25689)
+--------------
+             1
+
+SQL> select sign(-55.25689) from dual;
+
+SIGN(-55.25689)
+---------------
+             -1
+
+SQL> Select ADD_MONTHS('11-APR-05',3) from dual;
+
+ADD_MONTH
+---------
+11-JUL-05
+
+SQL> Select ADD_MONTHS(sysdate,3) from dual;
+
+ADD_MONTH
+---------
+26-MAR-26
+
+SQL> Select ADD_MONTHS(sysdate,12) from dual;
+
+ADD_MONTH
+---------
+26-DEC-26
+
+SQL> Select MONTHS_BETWEEN('11-JAN-05','11-JAN-04') from dual;
+
+MONTHS_BETWEEN('11-JAN-05','11-JAN-04')
+---------------------------------------
+                                     12
+
+SQL> Select MONTHS_BETWEEN(sysdate,'11-JAN-04') from dual;
+
+MONTHS_BETWEEN(SYSDATE,'11-JAN-04')
+-----------------------------------
+                         263.500696
+
+SQL> Select MONTHS_BETWEEN(sysdate,'11-JAN-24') from dual;
+
+MONTHS_BETWEEN(SYSDATE,'11-JAN-24')
+-----------------------------------
+                         23.5007079
+
+SQL> Select MONTHS_BETWEEN('11-JAN-05','11-JAN-04')/12 from dual;
+
+MONTHS_BETWEEN('11-JAN-05','11-JAN-04')/12
+------------------------------------------
+                                         1
+
+SQL> Select MONTHS_BETWEEN(sysdate,'11-JAN-04') from dual;
+
+MONTHS_BETWEEN(SYSDATE,'11-JAN-04')
+-----------------------------------
+                         263.500749
+
+SQL> Select MONTHS_BETWEEN(sysdate,'11-JAN-04')/12 from dual;
+
+MONTHS_BETWEEN(SYSDATE,'11-JAN-04')/12
+--------------------------------------
+                            21.9583959
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+26-DEC-25
+
+SQL> select currentdate from dual;
+select currentdate from dual
+       *
+ERROR at line 1:
+ORA-00904: "CURRENTDATE": invalid identifier
+
+
+SQL> select current_date from dual;
+
+CURRENT_D
+---------
+26-DEC-25
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+26-DEC-25
+
+SQL> select timestamp from dual;
+select timestamp from dual
+       *
+ERROR at line 1:
+ORA-00904: "TIMESTAMP": invalid identifier
+
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+26-DEC-25 12.36.14.084000 PM +05:30
+
+SQL> select current_timestamp from dual;
+
+CURRENT_TIMESTAMP
+---------------------------------------------------------------------------
+26-DEC-25 12.36.35.474000 PM +05:30
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+26-DEC-25 12.36.42.926000 PM +05:30
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+26-DEC-25 12.37.10.545000 PM +05:30
+
+SQL> select current_timestamp from dual;
+
+CURRENT_TIMESTAMP
+---------------------------------------------------------------------------
+26-DEC-25 12.37.15.903000 PM +05:30
+
+SQL> Select NEXT_DAY(SYSDATE,'MONDAY') from dual;
+
+NEXT_DAY(
+---------
+29-DEC-25
+
+SQL> Select NEXT_DAY(SYSDATE,'Friday') from dual;
+
+NEXT_DAY(
+---------
+02-JAN-26
+
+SQL> Select NEXT_DAY(SYSDATE) from dual;
+Select NEXT_DAY(SYSDATE) from dual
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> Select Last_DAY(SYSDATE,'Friday') from dual;
+Select Last_DAY(SYSDATE,'Friday') from dual
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments
+
+
+SQL> Select Last_DAY(SYSDATE) from dual;
+
+LAST_DAY(
+---------
+31-DEC-25
+
+SQL> Select Last_DAY('10-02-25') from dual;
+Select Last_DAY('10-02-25') from dual
+                *
+ERROR at line 1:
+ORA-01843: not a valid month
+
+
+SQL> Select Last_DAY(10-02-25) from dual;
+Select Last_DAY(10-02-25) from dual
+                     *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER
+
+
+SQL> Select Last_DAY('10-feb-25') from dual;
+
+LAST_DAY(
+---------
+28-FEB-25
+
+SQL> Select Last_DAY('10-feb-24') from dual;
+
+LAST_DAY(
+---------
+29-FEB-24
+
+SQL> Select Last_DAY('10-feb-23') from dual;
+
+LAST_DAY(
+---------
+28-FEB-23
+
+SQL> SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM dual;
+
+TO_CHAR(SY
+----------
+2025-12-26
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+26-DEC-25
+
+SQL> SELECT TO_CHAR('10-jan-22', 'YYYY-MM-DD') FROM dual;
+SELECT TO_CHAR('10-jan-22', 'YYYY-MM-DD') FROM dual
+               *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TO_CHAR(SYSDATE, 'MM-DD-yy') FROM dual;
+
+TO_CHAR(
+--------
+12-26-25
+
+SQL> SELECT TO_CHAR(SYSDATE, 'MM-DD-yyyy') FROM dual;
+
+TO_CHAR(SY
+----------
+12-26-2025
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD-mm-yyyy') FROM dual;
+
+TO_CHAR(SY
+----------
+26-12-2025
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD') FROM dual;
+
+TO
+--
+26
+
+SQL> SELECT TO_CHAR(SYSDATE, 'MM') FROM dual;
+
+TO
+--
+12
+
+SQL> SELECT TO_CHAR(SYSDATE, 'yyyy') FROM dual;
+
+TO_C
+----
+2025
+
+SQL> SELECT TO_CHAR(SYSDATE, 'yy') FROM dual;
+
+TO
+--
+25
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day:') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:')
+-------------------------------------
+Friday   :
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day:dd') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:DD')
+---------------------------------------
+Friday   :26
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day:dd,mm') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:DD,MM')
+------------------------------------------
+Friday   :26,12
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day:dd,mm,yyyy') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:DD,MM,YYYY')
+-----------------------------------------------
+Friday   :26,12,2025
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day:dd mm,yyyy') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:DDMM,YYYY')
+-----------------------------------------------
+Friday   :26 12,2025
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day:dd-mm-yyyy') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:DD-MM-YYYY')
+-----------------------------------------------
+Friday   :26-12-2025
+
+SQL> select TO_CHAR(SYSDATE, 'Day: MONTH DD, YYYY','NLS_DATE_LANGUAGE = Spanish')from dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTHDD,YYYY','NLS_DATE_LANGUAGE=SPANISH')
+---------------------------------------------------------------------------------------
+Viernes  : DICIEMBRE  26, 2025
+
+SQL> select TO_CHAR(SYSDATE, 'Day: MONTH DD, YYYY','NLS_DATE_LANGUAGE = Hindi')from dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTHDD,YYYY','NLS_DATE_LANGUAGE=HINDI')
+-----------------------------------------------------------------------
+┐┐┐┐┐┐┐┐: ┐┐┐┐┐┐┐ 26, 2025
+
+SQL> select TO_CHAR(SYSDATE, 'Day: MONTH DD, YYYY','NLS_DATE_LANGUAGE = Arabic')from dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTHDD,YYYY','NLS_DATE_LANGUAGE=ARABIC')
+-------------------------------------------------------------------
+┐┐┐┐┐┐  : ┐┐┐┐┐┐ 26, 2025
+
+SQL> select TO_CHAR(SYSDATE, 'Day: MONTH DD, YYYY','NLS_DATE_LANGUAGE = Telugu')from dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTHDD,YYYY','NLS_DATE_LANGUAGE=TELUGU')
+---------------------------------------------------------------------------------------
+┐┐┐┐┐┐┐┐┐: ┐┐┐┐┐┐┐┐   26, 2025
+
+SQL> select TO_CHAR(SYSDATE, 'Day: MONTH DD, YYYY','NLS_DATE_LANGUAGE = English')from dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTHDD,YYYY','NLS_DATE_LANGUAGE=ENGLISH')
+-----------------------------------------------------------------------------------
+Friday   : DECEMBER  26, 2025
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD-mm-yyyy') FROM dual;
+
+TO_CHAR(SY
+----------
+26-12-2025
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD-MONTH-yyyy') FROM dual;
+
+TO_CHAR(SYSDATE,'DD-MONTH-YYYY')
+--------------------------------------------
+26-DECEMBER -2025
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day:') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:')
+-------------------------------------
+Friday   :
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DAY') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY')
+------------------------------------
+FRIDAY
+
+SQL> SELECT TO_CHAR(SYSDATE, 'day') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY')
+------------------------------------
+friday
+
+SQL> Select TO_CHAR(SYSDATE,’DDD’) from dual;
+
+TO_
+---
+360
+
+SQL> Select TO_CHAR(SYSDATE,’DD’) from dual;
+
+TO
+--
+26
+
+SQL> Select TO_CHAR(SYSDATE,’mm’) from dual;
+
+TO
+--
+12
+
+SQL> Select TO_CHAR(SYSDATE,'yy') from dual;
+
+TO
+--
+25
+
+SQL> Select TO_CHAR(SYSDATE,'yyyy') from dual;
+
+TO_C
+----
+2025
+
+SQL> Select TO_CHAR(SYSDATE,'ddd') from dual;
+
+TO_
+---
+360
+
+SQL>
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select sid,sname from stu1;
+
+       SID SNAME
+---------- --------------------
+       101 Ramu
+       102 Krishna
+       103 Divya
+       104 Swapna
+       105 Nandhini
+       106 chaitra
+
+6 rows selected.
+
+SQL> select sid,sname from stu1 where si=103;
+select sid,sname from stu1 where si=103
+                                 *
+ERROR at line 1:
+ORA-00904: "SI": invalid identifier
+
+
+SQL> select sid,sname from stu1 where sid=103;
+
+       SID SNAME
+---------- --------------------
+       103 Divya
+
+SQL> select sid,sname from stu1 where sub1>=90;
+
+       SID SNAME
+---------- --------------------
+       101 Ramu
+       102 Krishna
+       105 Nandhini
+
+SQL>
