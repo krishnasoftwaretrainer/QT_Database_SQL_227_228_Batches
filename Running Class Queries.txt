@@ -4541,3 +4541,750 @@ SQL> select sid,sname from stu1 where sub1>=90;
        105 Nandhini
 
 SQL>
+
+29-12-2025
+-----
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Dec 29 12:11:26 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+
+9 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS
+---------- -------------------- ---------- ---------- ---------- ----------
+PERCENTAGE
+----------
+       101 Ramu                         90         80         70        240
+        80
+
+       102 Krishna                      90         90         90        270
+        90
+
+       103 Divya                        50         60         70        180
+        60
+
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS
+---------- -------------------- ---------- ---------- ---------- ----------
+PERCENTAGE
+----------
+       104 Swapna                       55         35         45        135
+        45
+
+       105 Nandhini                     93         43         43        179
+     59.67
+
+       106 chaitra
+
+
+
+6 rows selected.
+
+SQL> set linesize 200;
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select sid,sname,percenatge from stu1 where percentage>=80;
+select sid,sname,percenatge from stu1 where percentage>=80
+                 *
+ERROR at line 1:
+ORA-00904: "PERCENATGE": invalid identifier
+
+
+SQL> select sid,sname,percentage from stu1 where percentage>=80;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+
+SQL> create view v1 as select sid,sname,percentage from stu1 where percentage>=80;
+
+View created.
+
+SQL> select * from v1;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+
+SQL>
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Dec 29 12:20:31 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> set linesize 200;
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+V1                             VIEW
+
+10 rows selected.
+
+SQL> select * from v1;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+
+SQL> select * from stu2;
+select * from stu2
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> create view v2sid,sname,percentage from stu1;
+create view v2sid,sname,percentage from stu1
+                 *
+ERROR at line 1:
+ORA-00905: missing keyword
+
+
+SQL> create view v2 sid,sname,percentage from stu1;
+create view v2 sid,sname,percentage from stu1
+               *
+ERROR at line 1:
+ORA-00905: missing keyword
+
+
+SQL> create view v2 as select sid,sname,percentage from stu1;
+
+View created.
+
+SQL> select * from v2;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       103 Divya                        60
+       104 Swapna                       45
+       105 Nandhini                  59.67
+       106 chaitra
+
+6 rows selected.
+
+SQL> select * from v1;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+V1                             VIEW
+V2                             VIEW
+
+11 rows selected.
+
+SQL> insert into v1 values(107,'abcd',76);
+
+1 row created.
+
+SQL> select * from v1;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+
+SQL> select * from v2;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       103 Divya                        60
+       104 Swapna                       45
+       105 Nandhini                  59.67
+       106 chaitra
+       107 abcd                         76
+
+7 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     76
+
+7 rows selected.
+
+SQL> insert into stu1(sid,sname,percentage) values(107,'abcd',99);
+
+1 row created.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     76
+       107 abcd                                                                     99
+
+8 rows selected.
+
+SQL> select * from v2;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       103 Divya                        60
+       104 Swapna                       45
+       105 Nandhini                  59.67
+       106 chaitra
+       107 abcd                         76
+       107 abcd                         99
+
+8 rows selected.
+
+SQL> select * from v1;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       107 abcd                         99
+
+SQL> delete stu1 where percentage=76;
+
+1 row deleted.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+
+7 rows selected.
+
+SQL> select * from v1;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       107 abcd                         99
+
+SQL> select * from v2;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       103 Divya                        60
+       104 Swapna                       45
+       105 Nandhini                  59.67
+       106 chaitra
+       107 abcd                         99
+
+7 rows selected.
+
+SQL> desc stu1;
+ Name                                                                                                     Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                       NUMBER(3)
+ SNAME                                                                                                     VARCHAR2(20)
+ SUB1                                                                                                      NUMBER(3)
+ SUB2                                                                                                      NUMBER(3)
+ SUB3                                                                                                      NUMBER(3)
+ TOTALMARKS                                                                                                NUMBER(3)
+ PERCENTAGE                                                                                                NUMBER(6,2)
+
+SQL> desc v1;
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                                        NUMBER(3)
+ SNAME                                                                                                                      VARCHAR2(20)
+ PERCENTAGE                                                                                                                 NUMBER(6,2)
+
+SQL> desc v2;
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                                        NUMBER(3)
+ SNAME                                                                                                                      VARCHAR2(20)
+ PERCENTAGE                                                                                                                 NUMBER(6,2)
+
+SQL> insert into v2(sid) values(108);
+
+1 row created.
+
+SQL> insert into v2 values(108);
+insert into v2 values(108)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> select * from v1;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       107 abcd                         99
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+
+8 rows selected.
+
+SQL> select * from v2;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       103 Divya                        60
+       104 Swapna                       45
+       105 Nandhini                  59.67
+       106 chaitra
+       107 abcd                         99
+       108
+
+8 rows selected.
+
+SQL> create or replace view v1 as select(sid,sname);
+create or replace view v1 as select(sid,sname)
+                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create or replace view v1 as select(sid,sname) from stu1;
+create or replace view v1 as select(sid,sname) from stu1
+                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create or replace view v1 as select(sid,sname) from stu1;
+create or replace view v1 as select(sid,sname) from stu1
+                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create or replace view v3 as select(sid,sname) from stu1;
+create or replace view v3 as select(sid,sname) from stu1
+                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create or replace view v1 as select(sid,sname) from stu1;
+create or replace view v1 as select(sid,sname) from stu1
+                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create view v1 as select(sid,sname) from stu1;
+create view v1 as select(sid,sname) from stu1
+                            *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create view v1 as select (sid,sname) from stu1;
+create view v1 as select (sid,sname) from stu1
+                             *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create or replace view v1 as select sid,sname from stu1;
+
+View created.
+
+SQL> desc v1;
+ Name                                                                                                           Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                             NUMBER(3)
+ SNAME                                                                                                           VARCHAR2(20)
+
+SQL> select * from v1;
+
+       SID SNAME
+---------- --------------------
+       101 Ramu
+       102 Krishna
+       103 Divya
+       104 Swapna
+       105 Nandhini
+       106 chaitra
+       107 abcd
+       108
+
+8 rows selected.
+
+SQL> create or replace view v3 as select(sid,sub1,sub2,sub3);
+create or replace view v3 as select(sid,sub1,sub2,sub3)
+                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create or replace view v3 as select sid,sub1,sub2,sub3;
+create or replace view v3 as select sid,sub1,sub2,sub3
+                                                     *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> create or replace view v3 as select sid,sub1,sub2,sub3 from stu1;
+
+View created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+V1                             VIEW
+V2                             VIEW
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+V3                             VIEW
+
+12 rows selected.
+
+SQL> select * from v1;
+
+       SID SNAME
+---------- --------------------
+       101 Ramu
+       102 Krishna
+       103 Divya
+       104 Swapna
+       105 Nandhini
+       106 chaitra
+       107 abcd
+       108
+
+8 rows selected.
+
+SQL> select * from v2;
+
+       SID SNAME                PERCENTAGE
+---------- -------------------- ----------
+       101 Ramu                         80
+       102 Krishna                      90
+       103 Divya                        60
+       104 Swapna                       45
+       105 Nandhini                  59.67
+       106 chaitra
+       107 abcd                         99
+       108
+
+8 rows selected.
+
+SQL> select * from v3;
+
+       SID       SUB1       SUB2       SUB3
+---------- ---------- ---------- ----------
+       101         90         80         70
+       102         90         90         90
+       103         50         60         70
+       104         55         35         45
+       105         93         43         43
+       106
+       107
+       108
+
+8 rows selected.
+
+SQL> drop view v1;
+
+View dropped.
+
+SQL> select * from v1;
+select * from v1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+V2                             VIEW
+V3                             VIEW
+
+11 rows selected.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+
+8 rows selected.
+
+SQL> insert into emp(emp_id,ename,sal) values(101,'Ramu',90000);
+insert into emp(emp_id,ename,sal) values(101,'Ramu',90000)
+                                                    *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL> insert into emp(emp_id,ename,sal) values(101,'Ramu',9000);
+
+1 row created.
+
+SQL> select * from emp;
+
+    EMP_ID ENAME                       SAL        AGE
+---------- -------------------- ---------- ----------
+       102 Murali                     5000
+       103 Suman                      4000
+       104 Ramesh                     3000
+       101 Ramu                       9000
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+
+8 rows selected.
+
+SQL> create view se1 as select s.sid,s.sname,s.percentage,e.emp_id,e.ename,e.sal from stu1 s,emp e;
+
+View created.
+
+SQL> select * from se1;
+
+       SID SNAME                PERCENTAGE     EMP_ID ENAME                       SAL
+---------- -------------------- ---------- ---------- -------------------- ----------
+       101 Ramu                         80        102 Murali                     5000
+       102 Krishna                      90        102 Murali                     5000
+       103 Divya                        60        102 Murali                     5000
+       104 Swapna                       45        102 Murali                     5000
+       105 Nandhini                  59.67        102 Murali                     5000
+       106 chaitra                                102 Murali                     5000
+       107 abcd                         99        102 Murali                     5000
+       108                                        102 Murali                     5000
+       101 Ramu                         80        103 Suman                      4000
+       102 Krishna                      90        103 Suman                      4000
+       103 Divya                        60        103 Suman                      4000
+
+       SID SNAME                PERCENTAGE     EMP_ID ENAME                       SAL
+---------- -------------------- ---------- ---------- -------------------- ----------
+       104 Swapna                       45        103 Suman                      4000
+       105 Nandhini                  59.67        103 Suman                      4000
+       106 chaitra                                103 Suman                      4000
+       107 abcd                         99        103 Suman                      4000
+       108                                        103 Suman                      4000
+       101 Ramu                         80        104 Ramesh                     3000
+       102 Krishna                      90        104 Ramesh                     3000
+       103 Divya                        60        104 Ramesh                     3000
+       104 Swapna                       45        104 Ramesh                     3000
+       105 Nandhini                  59.67        104 Ramesh                     3000
+       106 chaitra                                104 Ramesh                     3000
+
+       SID SNAME                PERCENTAGE     EMP_ID ENAME                       SAL
+---------- -------------------- ---------- ---------- -------------------- ----------
+       107 abcd                         99        104 Ramesh                     3000
+       108                                        104 Ramesh                     3000
+       101 Ramu                         80        101 Ramu                       9000
+       102 Krishna                      90        101 Ramu                       9000
+       103 Divya                        60        101 Ramu                       9000
+       104 Swapna                       45        101 Ramu                       9000
+       105 Nandhini                  59.67        101 Ramu                       9000
+       106 chaitra                                101 Ramu                       9000
+       107 abcd                         99        101 Ramu                       9000
+       108                                        101 Ramu                       9000
+
+32 rows selected.
+
+SQL> desc se1;
+ Name                                                                                                           Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                             NUMBER(3)
+ SNAME                                                                                                           VARCHAR2(20)
+ PERCENTAGE                                                                                                      NUMBER(6,2)
+ EMP_ID                                                                                                          NUMBER(3)
+ ENAME                                                                                                           VARCHAR2(20)
+ SAL                                                                                                             NUMBER(4)
+
+SQL> insert into se1 values(100,'fddfdf',99,8,'ewdgds',5678);
+insert into se1 values(100,'fddfdf',99,8,'ewdgds',5678)
+*
+ERROR at line 1:
+ORA-01779: cannot modify a column which maps to a non key-preserved table
+
+
+SQL> insert into se1 values(100,'fddf',99.99,8,'ewdgds',5678);
+insert into se1 values(100,'fddf',99.99,8,'ewdgds',5678)
+*
+ERROR at line 1:
+ORA-01779: cannot modify a column which maps to a non key-preserved table
+
+
+SQL> insert into se1(sid,emp_id) values(100,78);
+insert into se1(sid,emp_id) values(100,78)
+                *
+ERROR at line 1:
+ORA-01779: cannot modify a column which maps to a non key-preserved table
+
+
+SQL> desc v2;
+ Name                                                                                                           Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                                             NUMBER(3)
+ SNAME                                                                                                           VARCHAR2(20)
+ PERCENTAGE                                                                                                      NUMBER(6,2)
+
+SQL> insert into v2(sid,percentage) values(100,78);
+
+1 row created.
+
+SQL> Create view v4 As select emp_id,ename from emp with read only;
+
+View created.
+
+SQL> select * from v4;
+
+    EMP_ID ENAME
+---------- --------------------
+       102 Murali
+       103 Suman
+       104 Ramesh
+       101 Ramu
+
+SQL> insert into v4 values(105,'gfhh');
+insert into v4 values(105,'gfhh')
+*
+ERROR at line 1:
+ORA-42399: cannot perform a DML operation on a read-only view
+
+
+SQL> Create view v4 As select emp_id,ename,sal from emp where sal>=5000 ;
