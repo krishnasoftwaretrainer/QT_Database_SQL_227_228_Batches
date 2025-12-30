@@ -5288,3 +5288,828 @@ ORA-42399: cannot perform a DML operation on a read-only view
 
 
 SQL> Create view v4 As select emp_id,ename,sal from emp where sal>=5000 ;
+========================
+30-12-2025
+----------
+
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Dec 30 11:45:10 2025
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> set linesize 200;
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+SE1                            VIEW
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+V2                             VIEW
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+V3                             VIEW
+V4                             VIEW
+
+13 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+       100                                                                          78
+
+9 rows selected.
+
+SQL> create view v5 as select sid,sname,sub1 where sub1>=60;
+create view v5 as select sid,sname,sub1 where sub1>=60
+                                        *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> create view v5 as select sid,sname,sub1 from stu1 where sub1>=60;
+
+View created.
+
+SQL> select * from v5;
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       101 Ramu                         90
+       102 Krishna                      90
+       105 Nandhini                     93
+
+SQL> create view v6 as select sid,sname,sub1 from stu1 where sub1>=60 with check option;
+
+View created.
+
+SQL> select * from v6;
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       101 Ramu                         90
+       102 Krishna                      90
+       105 Nandhini                     93
+
+SQL> insert into v5 values(106,'abcd',45);
+
+1 row created.
+
+SQL> insert into v6 values(106,'abcd',45);
+insert into v6 values(106,'abcd',45)
+            *
+ERROR at line 1:
+ORA-01402: view WITH CHECK OPTION where-clause violation
+
+
+SQL> Create materialized view v7 as select sid,sname from stu1;
+
+Materialized view created.
+
+SQL> insert into v7 values(107,'kkkkk');
+insert into v7 values(107,'kkkkk')
+            *
+ERROR at line 1:
+ORA-01732: data manipulation operation not legal on this view
+
+
+SQL> select * from v7;
+
+       SID SNAME
+---------- --------------------
+       101 Ramu
+       102 Krishna
+       103 Divya
+       104 Swapna
+       105 Nandhini
+       106 chaitra
+       107 abcd
+       108
+       100
+       106 abcd
+
+10 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+       100                                                                          78
+       106 abcd                         45
+
+10 rows selected.
+
+SQL> delete from stu1 where sid=100;
+
+1 row deleted.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+       106 abcd                         45
+
+9 rows selected.
+
+SQL> select * from v7;
+
+       SID SNAME
+---------- --------------------
+       101 Ramu
+       102 Krishna
+       103 Divya
+       104 Swapna
+       105 Nandhini
+       106 chaitra
+       107 abcd
+       108
+       100
+       106 abcd
+
+10 rows selected.
+
+SQL> select * from v6;
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       101 Ramu                         90
+       102 Krishna                      90
+       105 Nandhini                     93
+
+SQL> EXEC DBMS_MVIEW.REFRESH('v7');
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from v7;
+
+       SID SNAME
+---------- --------------------
+       101 Ramu
+       102 Krishna
+       103 Divya
+       104 Swapna
+       105 Nandhini
+       106 chaitra
+       107 abcd
+       108
+       106 abcd
+
+9 rows selected.
+
+SQL> create index idx1 on stu1(sname);
+
+Index created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+SE1                            VIEW
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+V2                             VIEW
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+V3                             VIEW
+V4                             VIEW
+V5                             VIEW
+V6                             VIEW
+V7                             TABLE
+
+16 rows selected.
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007006                    EMP1
+SYS_C007007                    EMP1
+SYS_C007010                    EMP2
+SYS_C007011                    EMP2
+SYS_C007013                    EMP3
+IDX1                           STU1
+
+6 rows selected.
+
+SQL> select sname from stu1;
+
+SNAME
+--------------------
+Ramu
+Krishna
+Divya
+Swapna
+Nandhini
+chaitra
+abcd
+
+abcd
+
+9 rows selected.
+
+SQL> select sname from stu1 where sname="Divya';
+ERROR:
+ORA-01740: missing double quote in identifier
+
+
+SQL> select sname from stu1 where sname='Divya';
+
+SNAME
+--------------------
+Divya
+
+SQL> create index idx2 on stu1(sname,sub1);
+
+Index created.
+
+SQL> create index idx3 on stu1(sname,sub1,sub2);
+
+Index created.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+       106 abcd                         45
+
+9 rows selected.
+
+SQL> CREATE UNIQUE INDEX idx4 ON stu1(sname);
+CREATE UNIQUE INDEX idx4 ON stu1(sname)
+                                 *
+ERROR at line 1:
+ORA-01408: such column list already indexed
+
+
+SQL> drop idx1;
+drop idx1
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop index idx1;
+
+Index dropped.
+
+SQL> CREATE UNIQUE INDEX idx4 ON stu1(sname);
+CREATE UNIQUE INDEX idx4 ON stu1(sname)
+                            *
+ERROR at line 1:
+ORA-01452: cannot CREATE UNIQUE INDEX; duplicate keys found
+
+
+SQL> CREATE UNIQUE INDEX idx4 ON stu1(sid);
+CREATE UNIQUE INDEX idx4 ON stu1(sid)
+                            *
+ERROR at line 1:
+ORA-01452: cannot CREATE UNIQUE INDEX; duplicate keys found
+
+
+SQL> CREATE UNIQUE INDEX idx4 ON stu1(sub2);
+
+Index created.
+
+SQL> insert into stu1(sub2) values (80);
+insert into stu1(sub2) values (80)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (CLASSDB.IDX4) violated
+
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007006                    EMP1
+SYS_C007007                    EMP1
+SYS_C007010                    EMP2
+SYS_C007011                    EMP2
+SYS_C007013                    EMP3
+IDX2                           STU1
+IDX3                           STU1
+IDX4                           STU1
+
+8 rows selected.
+
+SQL> desc emp1;
+ Name                                                                                           Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ EID                                                                                            NOT NULL NUMBER(3)
+ ENAME                                                                                          NOT NULL VARCHAR2(10)
+ SAL                                                                                             NUMBER(5)
+
+SQL> desc emp2;
+ Name                                                                                           Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ EID                                                                                            NOT NULL NUMBER(3)
+ ENAME                                                                                          NOT NULL VARCHAR2(10)
+ SAL                                                                                             NUMBER(5)
+
+SQL> desc stu1;
+ Name                                                                                           Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                             NUMBER(3)
+ SNAME                                                                                           VARCHAR2(20)
+ SUB1                                                                                            NUMBER(3)
+ SUB2                                                                                            NUMBER(3)
+ SUB3                                                                                            NUMBER(3)
+ TOTALMARKS                                                                                      NUMBER(3)
+ PERCENTAGE                                                                                      NUMBER(6,2)
+
+SQL>
+
+
+SQL> select sid,sname from stu1;
+
+       SID SNAME
+---------- --------------------
+       101 Ramu
+       102 Krishna
+       103 Divya
+       104 Swapna
+       105 Nandhini
+       106 chaitra
+       107 abcd
+       108
+       106 abcd
+
+9 rows selected.
+
+SQL> select sid,sname,sub1 from stu1 where sub1>=70;
+
+       SID SNAME                      SUB1
+---------- -------------------- ----------
+       101 Ramu                         90
+       102 Krishna                      90
+       105 Nandhini                     93
+
+SQL> select * from stu1 where sub1>=70;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> select distinct from stu1 where sub1>=70;
+select distinct from stu1 where sub1>=70
+                *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select distinct sid,sname from stu1 where sub1>=70;
+
+       SID SNAME
+---------- --------------------
+       105 Nandhini
+       101 Ramu
+       102 Krishna
+
+SQL> select distinct sid,sname from stu1;
+
+       SID SNAME
+---------- --------------------
+       105 Nandhini
+       106 abcd
+       101 Ramu
+       107 abcd
+       104 Swapna
+       106 chaitra
+       103 Divya
+       108
+       102 Krishna
+
+9 rows selected.
+
+SQL> select distinct sid from stu1;
+
+       SID
+----------
+       108
+       102
+       101
+       107
+       104
+       105
+       103
+       106
+
+8 rows selected.
+
+SQL> selcet sid from stu1;
+SP2-0734: unknown command beginning "selcet sid..." - rest of line ignored.
+SQL> select sid from stu1;
+
+       SID
+----------
+       101
+       102
+       103
+       104
+       105
+       106
+       107
+       108
+       106
+
+9 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+       106 abcd                         45
+
+9 rows selected.
+
+SQL> select * from stu1 order by sname;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       103 Divya                        50         60         70        180         60
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+       101 Ramu                         90         80         70        240         80
+       104 Swapna                       55         35         45        135         45
+       106 abcd                         45
+       107 abcd                                                                     99
+       106 chaitra
+       108
+
+9 rows selected.
+
+SQL> select * from stu1 order by sid;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       106 abcd                         45
+       107 abcd                                                                     99
+       108
+
+9 rows selected.
+
+SQL> select * from stu1 order by sub1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       106 abcd                         45
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+       107 abcd                                                                     99
+       108
+       106 chaitra
+
+9 rows selected.
+
+SQL> select * from stu1 order by sname;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       103 Divya                        50         60         70        180         60
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+       101 Ramu                         90         80         70        240         80
+       104 Swapna                       55         35         45        135         45
+       106 abcd                         45
+       107 abcd                                                                     99
+       106 chaitra
+       108
+
+9 rows selected.
+
+SQL> select * from stu1 order by sid;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       106 abcd                         45
+       107 abcd                                                                     99
+       108
+
+9 rows selected.
+
+SQL> select * from stu1 order by sid desc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       108
+       107 abcd                                                                     99
+       106 chaitra
+       106 abcd                         45
+       105 Nandhini                     93         43         43        179      59.67
+       104 Swapna                       55         35         45        135         45
+       103 Divya                        50         60         70        180         60
+       102 Krishna                      90         90         90        270         90
+       101 Ramu                         90         80         70        240         80
+
+9 rows selected.
+
+SQL> select * from stu1 order by sid asc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       106 abcd                         45
+       107 abcd                                                                     99
+       108
+
+9 rows selected.
+
+SQL> select * from stu1 order by sname asc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       103 Divya                        50         60         70        180         60
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+       101 Ramu                         90         80         70        240         80
+       104 Swapna                       55         35         45        135         45
+       106 abcd                         45
+       107 abcd                                                                     99
+       106 chaitra
+       108
+
+9 rows selected.
+
+SQL> select * from stu1 order by sname desc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       108
+       106 chaitra
+       107 abcd                                                                     99
+       106 abcd                         45
+       104 Swapna                       55         35         45        135         45
+       101 Ramu                         90         80         70        240         80
+       105 Nandhini                     93         43         43        179      59.67
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+
+9 rows selected.
+
+SQL> select * from stu1 order by sub1 desc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       108
+       107 abcd                                                                     99
+       106 chaitra
+       105 Nandhini                     93         43         43        179      59.67
+       102 Krishna                      90         90         90        270         90
+       101 Ramu                         90         80         70        240         80
+       104 Swapna                       55         35         45        135         45
+       103 Divya                        50         60         70        180         60
+       106 abcd                         45
+
+9 rows selected.
+
+SQL> select * from stu1 order by sub1 asc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       106 abcd                         45
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+       107 abcd                                                                     99
+       108
+       106 chaitra
+
+9 rows selected.
+
+SQL> delete stu1 where sid=106,107,108;
+delete stu1 where sid=106,107,108
+                         *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> delete stu1 where sid=106 107 108;
+delete stu1 where sid=106 107 108
+                          *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> delete stu1 where sid=106 || 107 || 108;
+
+0 rows deleted.
+
+SQL> delete stu1 where sid=106;
+
+2 rows deleted.
+
+SQL> delete stu1 where sid=107;
+
+1 row deleted.
+
+SQL> delete stu1 where sid=108;
+
+1 row deleted.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> select * from stu1 order by sub1,sub2 asc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> select * from stu1 order by sub2,sub1 asc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       103 Divya                        50         60         70        180         60
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+
+SQL> select * from stu1 order by sub2,sub1 desc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       103 Divya                        50         60         70        180         60
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+
+SQL> select * from stu1 order by sub2 desc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       102 Krishna                      90         90         90        270         90
+       101 Ramu                         90         80         70        240         80
+       103 Divya                        50         60         70        180         60
+       105 Nandhini                     93         43         43        179      59.67
+       104 Swapna                       55         35         45        135         45
+
+SQL> select * from stu1 order by sname desc;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       104 Swapna                       55         35         45        135         45
+       101 Ramu                         90         80         70        240         80
+       105 Nandhini                     93         43         43        179      59.67
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+
+SQL> select * from stu1 order by sname;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       103 Divya                        50         60         70        180         60
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+       101 Ramu                         90         80         70        240         80
+       104 Swapna                       55         35         45        135         45
+
+SQL> select count(*) from stu1 order by sname;
+
+  COUNT(*)
+----------
+         5
+
+SQL> select count(sid) from stu1 order by sname;
+
+COUNT(SID)
+----------
+         5
+
+SQL> insert into stu1(sid) values(106);
+
+1 row created.
+
+SQL> select count(*) from stu1 order by sname;
+
+  COUNT(*)
+----------
+         6
+
+SQL> select count(sname) from stu1 order by sname;
+
+COUNT(SNAME)
+------------
+           5
+
+SQL> select * from stu1 order by sname;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       103 Divya                        50         60         70        180         60
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+       101 Ramu                         90         80         70        240         80
+       104 Swapna                       55         35         45        135         45
+       106
+
+6 rows selected.
+
+SQL> desc stu1;
+ Name                                                                                           Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ SID                                                                                             NUMBER(3)
+ SNAME                                                                                           VARCHAR2(20)
+ SUB1                                                                                            NUMBER(3)
+ SUB2                                                                                            NUMBER(3)
+ SUB3                                                                                            NUMBER(3)
+ TOTALMARKS                                                                                      NUMBER(3)
+ PERCENTAGE                                                                                      NUMBER(6,2)
+
+SQL>
+
