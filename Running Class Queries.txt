@@ -6112,4 +6112,1514 @@ SQL> desc stu1;
  PERCENTAGE                                                                                      NUMBER(6,2)
 
 SQL>
+---------
+02-0-2026
 
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Jan 2 11:54:51 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> set linesize 200;
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+EMP                            TABLE
+EMP1                           TABLE
+EMP2                           TABLE
+EMP3                           TABLE
+EMP4                           TABLE
+SE1                            VIEW
+STU                            TABLE
+STU1                           TABLE
+STUDENT                        TABLE
+STUDENT1                       TABLE
+V2                             VIEW
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+V3                             VIEW
+V4                             VIEW
+V5                             VIEW
+V6                             VIEW
+V7                             TABLE
+
+16 rows selected.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+       106 chaitra
+       107 abcd                                                                     99
+       108
+       106 abcd                         45
+
+9 rows selected.
+
+SQL> SELECT * FROM stu1 WHERE SID IN (SELECT SID FROM stu1 WHERE sub1 > 70);
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> SELECT SID FROM stu1 WHERE sub1 > 70;
+
+       SID
+----------
+       101
+       102
+       105
+
+SQL> SELECT sid,sname FROM stu1 WHERE SID IN (SELECT SID FROM stu1 WHERE sub1 > 70) and sname IN (SELECT sname FROM stu1 WHERE sub2 < 60);
+
+       SID SNAME
+---------- --------------------
+       105 Nandhini
+
+SQL> SELECT sname FROM stu1 WHERE sub2 < 60;
+
+SNAME
+--------------------
+Nandhini
+Swapna
+
+SQL> delete from stu1 where sid=107;
+
+1 row deleted.
+
+SQL> delete from stu1 where sid=108;
+
+1 row deleted.
+
+SQL> delete from stu1 where sid=106;
+
+2 rows deleted.
+
+SQL> select * from stu1;
+
+       SID SNAME                      SUB1       SUB2       SUB3 TOTALMARKS PERCENTAGE
+---------- -------------------- ---------- ---------- ---------- ---------- ----------
+       101 Ramu                         90         80         70        240         80
+       102 Krishna                      90         90         90        270         90
+       103 Divya                        50         60         70        180         60
+       104 Swapna                       55         35         45        135         45
+       105 Nandhini                     93         43         43        179      59.67
+
+SQL> SELECT sname FROM stu1 WHERE sub2 < 60;
+
+SNAME
+--------------------
+Nandhini
+Swapna
+
+SQL> SELECT SID FROM stu1 WHERE sub1 > 70;
+
+       SID
+----------
+       101
+       102
+       105
+
+SQL> SELECT sid,sname FROM stu1 WHERE SID IN (SELECT SID FROM stu1 WHERE sub1 > 70) and sname IN (SELECT sname FROM stu1 WHERE sub2 < 60);
+
+       SID SNAME
+---------- --------------------
+       105 Nandhini
+
+SQL> SELECT sid,sname FROM stu1 WHERE SID IN (SELECT SID FROM stu1 WHERE sub1 > 70) and sid IN (SELECT sid FROM stu1 WHERE sub2 < 60) and sid IN (SELECT sid FROM stu1 WHERE sub3 > 80);
+
+no rows selected
+
+SQL> SELECT SID FROM stu1 WHERE sub1 > 70;
+
+       SID
+----------
+       101
+       102
+       105
+
+SQL> SELECT sid FROM stu1 WHERE sub2 < 60;
+
+       SID
+----------
+       104
+       105
+
+SQL> SELECT sid FROM stu1 WHERE sub3 > 80;
+
+       SID
+----------
+       102
+
+SQL> SELECT sid,sname FROM stu1 WHERE SID IN (SELECT SID FROM stu1 WHERE sub1 > 70) and sid IN (SELECT sid FROM stu1 WHERE sub2 < 60) and sid IN (SELECT sid FROM stu1 WHERE sub3 =43);
+
+       SID SNAME
+---------- --------------------
+       105 Nandhini
+
+SQL> SELECT sid FROM stu1 WHERE sub3 = 43;
+
+       SID
+----------
+       105
+
+
+SQL> create table cust(cid number(3),cname varchar2(10),cage number(2));
+
+Table created.
+
+SQL> insert into cust values(&cid,&cname,&cage);
+Enter value for cid: 1
+Enter value for cname: 'Krishna'
+Enter value for cage: 25
+old   1: insert into cust values(&cid,&cname,&cage)
+new   1: insert into cust values(1,'Krishna',25)
+
+1 row created.
+
+SQL> /
+Enter value for cid: 5
+Enter value for cname: 'Swapna'
+Enter value for cage: 55
+old   1: insert into cust values(&cid,&cname,&cage)
+new   1: insert into cust values(5,'Swapna',55)
+
+1 row created.
+
+SQL> /
+Enter value for cid: 3
+Enter value for cname: 'Nandhini'
+Enter value for cage: 68
+old   1: insert into cust values(&cid,&cname,&cage)
+new   1: insert into cust values(3,'Nandhini',68)
+
+1 row created.
+
+SQL> /
+Enter value for cid: 8
+Enter value for cname: 'Ramu'
+Enter value for cage: 35
+old   1: insert into cust values(&cid,&cname,&cage)
+new   1: insert into cust values(8,'Ramu',35)
+
+1 row created.
+
+SQL> /
+Enter value for cid: 4
+Enter value for cname: 'Sunitha'
+Enter value for cage: 89
+old   1: insert into cust values(&cid,&cname,&cage)
+new   1: insert into cust values(4,'Sunitha',89)
+
+1 row created.
+
+SQL> create table prod(pid number(3),pname varchar2(10),pprice number(4));
+
+Table created.
+
+SQL> insert into prod values(&pid,&pname,&pprice);
+Enter value for pid: 1
+Enter value for pname: 'TV'
+Enter value for pprice: 5000
+old   1: insert into prod values(&pid,&pname,&pprice)
+new   1: insert into prod values(1,'TV',5000)
+
+1 row created.
+
+SQL> /
+Enter value for pid: 2
+Enter value for pname: 'LapTop'
+Enter value for pprice: 6500
+old   1: insert into prod values(&pid,&pname,&pprice)
+new   1: insert into prod values(2,'LapTop',6500)
+
+1 row created.
+
+SQL> /
+Enter value for pid: 3
+Enter value for pname: 'Mobile'
+Enter value for pprice: 450
+old   1: insert into prod values(&pid,&pname,&pprice)
+new   1: insert into prod values(3,'Mobile',450)
+
+1 row created.
+
+SQL> /
+Enter value for pid: 6
+Enter value for pname: 'AC'
+Enter value for pprice: 8946
+old   1: insert into prod values(&pid,&pname,&pprice)
+new   1: insert into prod values(6,'AC',8946)
+
+1 row created.
+
+SQL> /
+Enter value for pid: 9
+Enter value for pname: 'Fan'
+Enter value for pprice: 789
+old   1: insert into prod values(&pid,&pname,&pprice)
+new   1: insert into prod values(9,'Fan',789)
+
+1 row created.
+
+SQL> select * from cust;
+
+       CID CNAME            CAGE
+---------- ---------- ----------
+         1 Krishna            25
+         5 Swapna             55
+         3 Nandhini           68
+         8 Ramu               35
+         4 Sunitha            89
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         1 TV               5000
+         2 LapTop           6500
+         3 Mobile            450
+         6 AC               8946
+         9 Fan               789
+
+SQL> select cust.cid,cust.cname,prod.pid,prod.pname from cust inner join prod on cid=pid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c inner join prod p on cid!=pid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c inner join prod p on cid>=pid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+         3 Nandhini            3 Mobile
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+
+14 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from prod c inner join cust p on cid>=pid;
+select c.cid,c.cname,p.pid,p.pname from prod c inner join cust p on cid>=pid
+                           *
+ERROR at line 1:
+ORA-00904: "P"."PNAME": invalid identifier
+
+
+SQL> select c.cid,c.cname,p.pid,p.pname from prod p inner join cust c on cid>=pid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         5 Swapna              1 TV
+         3 Nandhini            1 TV
+         8 Ramu                1 TV
+         4 Sunitha             1 TV
+         5 Swapna              2 LapTop
+         3 Nandhini            2 LapTop
+         8 Ramu                2 LapTop
+         4 Sunitha             2 LapTop
+         5 Swapna              3 Mobile
+         3 Nandhini            3 Mobile
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         8 Ramu                3 Mobile
+         4 Sunitha             3 Mobile
+         8 Ramu                6 AC
+
+14 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from prod p inner join cust c on pid>=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         3 Nandhini            3 Mobile
+         1 Krishna             6 AC
+         5 Swapna              6 AC
+         3 Nandhini            6 AC
+         4 Sunitha             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              9 Fan
+         3 Nandhini            9 Fan
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         8 Ramu                9 Fan
+         4 Sunitha             9 Fan
+
+13 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from prod p left join cust c on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+                               6 AC
+                               2 LapTop
+                               9 Fan
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c left join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+         4 Sunitha
+         5 Swapna
+         8 Ramu
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c right join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+                               6 AC
+                               2 LapTop
+                               9 Fan
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p;
+select c.cid,c.cname,p.pid,p.pname from cust c join prod p
+                                                         *
+ERROR at line 1:
+ORA-00905: missing keyword
+
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c full join prod p;
+select c.cid,c.cname,p.pid,p.pname from cust c full join prod p
+                                                              *
+ERROR at line 1:
+ORA-00905: missing keyword
+
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c full join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+                               2 LapTop
+         3 Nandhini            3 Mobile
+                               6 AC
+                               9 Fan
+         4 Sunitha
+         5 Swapna
+         8 Ramu
+
+8 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c full join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+                               2 LapTop
+         3 Nandhini            3 Mobile
+                               6 AC
+                               9 Fan
+         4 Sunitha
+         5 Swapna
+         8 Ramu
+
+8 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid>=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            3 Mobile
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                9 Fan
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             6 AC
+         4 Sunitha             9 Fan
+
+13 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c inner join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c inner join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c left join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c full join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c right join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         5 Swapna              1 TV
+         3 Nandhini            1 TV
+         8 Ramu                1 TV
+         4 Sunitha             1 TV
+         1 Krishna             2 LapTop
+         5 Swapna              2 LapTop
+         3 Nandhini            2 LapTop
+         8 Ramu                2 LapTop
+         4 Sunitha             2 LapTop
+         1 Krishna             3 Mobile
+         5 Swapna              3 Mobile
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         8 Ramu                3 Mobile
+         4 Sunitha             3 Mobile
+         1 Krishna             6 AC
+         5 Swapna              6 AC
+         3 Nandhini            6 AC
+         8 Ramu                6 AC
+         4 Sunitha             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              9 Fan
+         3 Nandhini            9 Fan
+         8 Ramu                9 Fan
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c inner join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         3 Nandhini            3 Mobile
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c inner join prod p on pid!=cid;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+         3 Nandhini            2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             9 Fan
+
+23 rows selected.
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c cross join prod p on pid!=cid;
+select c.cid,c.cname,p.pid,p.pname from cust c cross join prod p on pid!=cid
+                                                                 *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select c.cid,c.cname,p.pid,p.pname from cust c cross join prod p;
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         1 Krishna             1 TV
+         1 Krishna             2 LapTop
+         1 Krishna             3 Mobile
+         1 Krishna             6 AC
+         1 Krishna             9 Fan
+         5 Swapna              1 TV
+         5 Swapna              2 LapTop
+         5 Swapna              3 Mobile
+         5 Swapna              6 AC
+         5 Swapna              9 Fan
+         3 Nandhini            1 TV
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         3 Nandhini            2 LapTop
+         3 Nandhini            3 Mobile
+         3 Nandhini            6 AC
+         3 Nandhini            9 Fan
+         8 Ramu                1 TV
+         8 Ramu                2 LapTop
+         8 Ramu                3 Mobile
+         8 Ramu                6 AC
+         8 Ramu                9 Fan
+         4 Sunitha             1 TV
+         4 Sunitha             2 LapTop
+
+       CID CNAME             PID PNAME
+---------- ---------- ---------- ----------
+         4 Sunitha             3 Mobile
+         4 Sunitha             6 AC
+         4 Sunitha             9 Fan
+
+25 rows selected.
+
+SQL>
+
+03-01-2026
+------
+
+SQL*Plus: Release 11.2.0.2.0 Production on Sat Jan 3 12:09:32 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect classdb;
+Enter password:
+Connected.
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         1 TV               5000
+         2 LapTop           6500
+         3 Mobile            450
+         6 AC               8946
+         9 Fan               789
+
+SQL> truncate prod;
+truncate prod
+            *
+ERROR at line 1:
+ORA-03290: Invalid truncate command - missing CLUSTER or TABLE keyword
+
+
+SQL> truncate table prod;
+
+Table truncated.
+
+SQL> desc prod;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PID                                                NUMBER(3)
+ PNAME                                              VARCHAR2(10)
+ PPRICE                                             NUMBER(4)
+
+SQL> insert into prod values(1,'TV',5000);
+
+1 row created.
+
+SQL> insert into prod values('TV',5000);
+insert into prod values('TV',5000)
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into prod(pname,pprice) values('TV',5000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         1 TV               5000
+           TV               5000
+
+SQL> insert into prod(pname,pprice) values('TV',5000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         1 TV               5000
+           TV               5000
+           TV               5000
+
+SQL> CREATE SEQUENCE prod_pid START WITH 1 INCREMENT BY 1;
+
+Sequence created.
+
+SQL> INSERT INTO prod (pid, pname,price) VALUES (prod_pid.NEXTVAL, 'Mobile',8000);
+INSERT INTO prod (pid, pname,price) VALUES (prod_pid.NEXTVAL, 'Mobile',8000)
+                             *
+ERROR at line 1:
+ORA-00904: "PRICE": invalid identifier
+
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'Mobile',8000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         1 TV               5000
+           TV               5000
+           TV               5000
+         1 Mobile           8000
+
+SQL> truncate table prod;
+
+Table truncated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'Mobile',8000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+
+SQL> INSERT INTO prod (pid, pname,price) VALUES (prod_pid.NEXTVAL, 'TV',5000);
+INSERT INTO prod (pid, pname,price) VALUES (prod_pid.NEXTVAL, 'TV',5000)
+                             *
+ERROR at line 1:
+ORA-00904: "PRICE": invalid identifier
+
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'TV',5000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, '',8000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+
+SQL> ALTER SEQUENCE prod_pid INCREMENT BY 5 MAXVALUE 20;
+
+Sequence altered.
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'ffff',8000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'rrrr',8000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'kkk',8000);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+
+6 rows selected.
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'uuuuu',8000);
+INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'uuuuu',8000)
+                                             *
+ERROR at line 1:
+ORA-08004: sequence PROD_PID.NEXTVAL exceeds MAXVALUE and cannot be
+instantiated
+
+
+SQL> SELECT stu_id.CURRVAL FROM DUAL;
+SELECT stu_id.CURRVAL FROM DUAL
+       *
+ERROR at line 1:
+ORA-02289: sequence does not exist
+
+
+SQL> SELECT prod_pid.CURRVAL FROM DUAL;
+
+   CURRVAL
+----------
+        19
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+
+6 rows selected.
+
+SQL> insert into prod values(20,'lll',567);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+        20 lll               567
+
+7 rows selected.
+
+SQL> insert into prod values(21,'lll',567);
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+        20 lll               567
+        21 lll               567
+
+8 rows selected.
+
+SQL> INSERT INTO prod (pid, pname) VALUES (55, 'uuuuu');
+
+1 row created.
+
+SQL> DROP SEQUENCE prod_pid;
+
+Sequence dropped.
+
+SQL> INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'uuuuu',8000);
+INSERT INTO prod (pid, pname,pprice) VALUES (prod_pid.NEXTVAL, 'uuuuu',8000)
+                                             *
+ERROR at line 1:
+ORA-02289: sequence does not exist
+
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+
+9 rows selected.
+
+SQL> CREATE SYNONYM production FOR prod;
+
+Synonym created.
+
+SQL> select * from production;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+
+9 rows selected.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+
+9 rows selected.
+
+SQL> rename production to prod1;
+
+Table renamed.
+
+SQL> select * from production;
+select * from production
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from prod1;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+
+9 rows selected.
+
+SQL> select synonym_name from user_synonyms;
+
+SYNONYM_NAME
+------------------------------
+PROD1
+
+SQL> drop prod1;
+drop prod1
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop synonym prod1;
+
+Synonym dropped.
+
+SQL> select * from prod1;
+select * from prod1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL>
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        19 kkk              8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+
+9 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> delete prod where pid=19;
+
+1 row deleted.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+
+8 rows selected.
+
+SQL> insert into prod(pname) values('Krishna');
+
+1 row created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+           Krishna
+
+9 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+           Krishna
+
+9 rows selected.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+
+8 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> CREATE OR REPLACE TRIGGER trg_prod_upd
+  2  AFTER UPDATE ON prod
+  3  FOR EACH ROW
+  4  BEGIN
+  5  DBMS_OUTPUT.PUT_LINE('Update operation performed');
+  6  END;
+  7  /
+
+Trigger created.
+
+SQL> select * from prod;
+
+       PID PNAME          PPRICE
+---------- ---------- ----------
+         2 Mobile           8000
+         3 TV               5000
+         4                  8000
+         9 ffff             8000
+        14 rrrr             8000
+        20 lll               567
+        21 lll               567
+        55 uuuuu
+
+8 rows selected.
+
+SQL> update prod set pname='jjj' where pid=4;
+
+1 row updated.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> update prod set pname='jjj' where pid=4;
+Update operation performed
+
+1 row updated.
+
+SQL> create table ss1(sid number(2);
+create table ss1(sid number(2)
+                             *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> create table ss1(sid number(2));
+
+Table created.
+
+SQL> drop ss1;
+drop ss1
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop table ss1;
+
+Table dropped.
+
+SQL> desc ss1;
+ERROR:
+ORA-04043: object ss1 does not exist
+
+
+SQL> show recycle bin;
+SQL> Alter session set recycle bin = on;
+Alter session set recycle bin = on
+                  *
+ERROR at line 1:
+ORA-02248: invalid option for ALTER SESSION
+
+
+SQL> Alter system set recycle bin = on;
+Alter system set recycle bin = on
+                 *
+ERROR at line 1:
+ORA-02065: illegal option for ALTER SYSTEM
+
+
+SQL> Alter system set recyclebin = on;
+Alter system set recyclebin = on
+                               *
+ERROR at line 1:
+ORA-02096: specified initialization parameter is not modifiable with this
+option
+
+
+SQL> flashback table ss1 to before drop;
+flashback table ss1 to before drop
+*
+ERROR at line 1:
+ORA-38305: object not in RECYCLE BIN
